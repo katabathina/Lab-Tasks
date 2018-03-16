@@ -1,0 +1,164 @@
+Today task:
+
+syntax: "ln -s original filename(/home/ec2-user/test) symlink name(new test)"
+
+Tasks:
+
+1 . ln -s /var/www/html/index.html /home/ec2-user/apache.html
+
+2. crate a shortcut for your pemfile in bastion.
+ 
+Ans:- first you download wget afterthat wget (link),next it converts to the pemfile,next past where ever you want ex:ec2-user/bastion pem
+
+3. create a shortcut for  /var/www/html to /home/ec2-user/httdocs.
+
+
+Today class notes:
+
+"curl" command used for local intsernet access
+ex: curl localhost
+    curl IP address
+
+    Apache installation while creating ec2:
+
+yum install httpd -y
+echo"this is test page">>/var/www/html/index.html
+
+
+   Apache path installed:
+
+apache path install : "cd /etc/httpd"
+
+
+Query:boot up is not working?
+
+Select instance--> Actions-->instance settings--->get system log
+
+
+Apache start command:-
+
+systemctl start httpd------->(OS command)
+
+apachectl -k start -----> (user command)
+
+sudo httpd -k srart
+sudo httpd -k stop
+
+sudo systemctl enable httpd ----> default with OS,apache also installed.
+
+sudo systemctl status httpd----. Apache run or check command.
+
+--> 
+apache is a webserver.
+
+Directory Structure:---
+
+Apache--->
+
+   Conf.d----->(httpd.conf)
+   logs------->../../var/log/httpd (original file)
+   Conf
+   run
+   Modules
+
+logs---->l=symlinks
+
+symlink--2 types--->softlink
+                ---->hardlink
+
+1.softlink:-softlink space allocated in one place.
+
+           :-If delete original file, loacl file also deleted.
+
+           :- softlink created across the file systems
+
+2. hardlink :-Hardlink space allocated both the locations.
+
+            :- if delete original file, another place file will be there.
+            
+            :- hardlink we can't create across the file systems.
+
+
+
+
+Tasks:
+
+1 . ln -s /var/www/html/index.html /home/ec2-user/apache.html
+
+Ans:- first create a instance and connect to instancd, after that goto "/".
+      from there [root@ip-172-31-25-59 ~]# cd /
+                 [root@ip-172-31-25-59 /]# cd var
+                 [root@ip-172-31-25-59 var]# mkdir www
+                 [root@ip-172-31-25-59 var]# cd www
+                 [root@ip-172-31-25-59 www]# mkdir html
+                 [root@ip-172-31-25-59 www]# cd html
+                 [root@ip-172-31-25-59 html]# mkdir index.html
+                 [root@ip-172-31-25-59 html]# pwd
+                 /var/www/html
+                 [root@ip-172-31-25-59 html]# cd index.html
+                 [root@ip-172-31-25-59 index.html]# pwd
+                 /var/www/html/index.html
+
+                
+                [root@ip-172-31-25-59 index.html]# cd /
+                [root@ip-172-31-25-59 /]# pwd
+                /
+                [root@ip-172-31-25-59 /]# cd home
+                [root@ip-172-31-25-59 home]# cd ec2-user
+                [root@ip-172-31-25-59 ec2-user]# mkdir apache.html
+                [root@ip-172-31-25-59 ec2-user]# cd apache.html
+                [root@ip-172-31-25-59 apache.html]# pwd
+                /home/ec2-user/apache.html
+
+                [root@ip-172-31-25-59 apache.html]# cd /
+               
+    Command:    [root@ip-172-31-25-59 /]# ln -s /var/www/html/index.html /home/ec2-user/apache.html                                                                                       tml
+                
+                [root@ip-172-31-25-59 /]# pwd
+                /
+               [root@ip-172-31-25-59 /]# cd /home/ec2-user/apache.html
+               [root@ip-172-31-25-59 apache.html]# ls -ltr
+               total 0
+               
+      O/P/;         lrwxrwxrwx. 1 root root 24 Aug  7 13:40 index.html -> /var/www/html/index.html
+
+
+
+
+         
+                 
+
+2. crate a shortcut for your pemfile in bastion.
+
+
+
+
+3. create a shortcut for  /var/www/html to /home/ec2-user/httdocs.
+     
+ans: 
+
+[root@ip-172-31-25-59 apache.html]# cd /
+[root@ip-172-31-25-59 /]# cd var
+[root@ip-172-31-25-59 var]# cd www
+[root@ip-172-31-25-59 www]# cd html
+[root@ip-172-31-25-59 html]# pwd
+/var/www/html
+
+[root@ip-172-31-25-59 html]# cd /
+[root@ip-172-31-25-59 /]# cd home
+[root@ip-172-31-25-59 home]# cd ec2-user
+[root@ip-172-31-25-59 ec2-user]# ls -ltr
+total 0
+drwxr-xr-x. 2 root root 24 Aug  7 13:40 apache.html
+[root@ip-172-31-25-59 ec2-user]# mkdir httdocs
+[root@ip-172-31-25-59 ec2-user]# cd httdocs
+[root@ip-172-31-25-59 httdocs]# pwd
+/home/ec2-user/httdocs
+
+[root@ip-172-31-25-59 httdocs]# cd /
+
+[root@ip-172-31-25-59 /]# ln -s /var/www/html /home/ec2-user/httdocs
+/
+[root@ip-172-31-25-59 /]# cd /home/ec2-user/httdocs
+lrwxrwxrwx. 1 root root 13 Aug  7 13:59 html -> /var/www/html
+[root@ip-172-31-25-59 httdocs]#

@@ -1,0 +1,3 @@
+apache will be there in "/etc/httpd/" /etc/httpd/conf/httpd.conf
+
+ErrorLog:- by default ErrorLog will be there in /var/log/httpd

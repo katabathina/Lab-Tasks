@@ -1,0 +1,193 @@
+
+
+DB Instance Identifier*	
+lampdb
+
+Master Username*	
+admin
+
+
+Master Password*	
+
+••••••••
+
+Confirm Password*	
+admin123
+
+Endpoint:-  lampdb.clmm6oapwjvo.eu-west-2.rds.amazonaws.com:3306
+
+
+
+CREATE USER wordpress@52.56.137.103 IDENTIFIED BY "admin123";
+CREATE USER wordpress@172.31.13.241 IDENTIFIED BY "admin123";
+
+Error:Error establishing a database connection
+
+
+
+GRANT ALL ON wordpress.* TO wordpress@172.31.11.15; 
+
+GRANT ALL ON wordpress.* TO wordpress@52.56.137.103;
+
+GRANT ALL ON wordpress.* TO wordpress@172.31.13.241;
+
+SELECT * from information_schema.user_privileges;
+
+grant all privileges on wordpress.* to wordpress@52.56.137.103 identified by 'admin123';
+
+grant all privileges on wordpress.* to wordpress@172.31.11.15 identified by 'admin123';
+
+GRANT ALL PRIVILEGES ON *.* TO 'wordpress'@'34.253.189.217' IDENTIFIED BY 'admin123' WITH GRANT OPTION;
+
+
+
+grant all privileges on wordpress.* to wordpress@52.56.137.103 identified by 'wordpress';
+
+grant all privileges on wordpress.* to wordpress@172.31.11.15 identified by 'wordpress'
+
+
+
+
+
+
+
+ 1  ls -ltr
+    2  yum install httpd
+    3  systemctl start httpd
+    4  ps -ef | grep httpd
+    5  yum install php
+    6  cd /
+    7  ls -ltr
+    8  cd opt
+    9  mkdir wordpress
+   10  ls -ltr
+   11  cd wordpress/
+   12  ls -ltr
+   13  wget https://wordpress.org/latest.zip
+   14  yum install wget -y
+   15  wget https://wordpress.org/latest.zip
+   16  ls -ltr
+   17  unzip latest.zip
+   18  yum install unzip -y
+   19  unzip latest.zip
+   20  ls -ltr
+   21  cd /opt
+   22  ls -ltr
+   23  cd wordpress/
+   24  ls -ltr
+   25  mv latest.zip /tmp
+   26  ls -ltr
+   27  cd wordpress/
+   28  ls -ltr
+   29  ping www.google.com
+   30  ls -ltr
+   31  mv * ../
+   32  ls -ltr
+   33  cd ..
+   34  ls -ltr
+   35  cd wordpress
+   36  ls -ltr
+   37  rm -rf wordpress
+   38  ls -ltr
+   39  yum install mysql
+41  mysql
+   42  cd /var/www/html
+   43  ls -ltr
+   44  cd /
+   45  cd /etc/httpd
+   46  ls -ltr
+   47  cd conf
+   48  vi httpd.conf
+   49  ps -ef | grep httpd
+   50  systemctl stop httpd
+   51  ps -ef | grep httpd
+   52  systemctl start httpd
+   53  ps -ef | grep httpd
+   54  systemctl -t
+   55  systemctl --t
+   56  systemctl -t
+   57  yum install php-mysql
+   58  mysql
+   59  which mysql
+	
+
+-------------------->
+
+
+s*qVDj%ryldeO4ihHm
+
+
+
+
+==================>
+
+Drupal
+
+http://34.253.189.217
+
+
+drupal installation step by step on linux
+
+https://www.tecmint.com/install-drupal-in-centos-rhel-fedora/
+
+==================>
+
+download the drupal and place it in /opt/poc/drupal
+====================================================
+Check php compatabiltiy
+============================
+echo "<?php  phpinfo(); ?>" > /opt/poc/drupal/info.php
+
+==================================
+update yum repos by running below commands in ec2
+
+
+rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
+yum install php70w php70w-opcache php70w-mbstring php70w-gd php70w-xml php70w-pear php70w-fpm php70w-mysql php70w-pdo
+
+
+=========================================
+download the drupal and place it in /opt/poc/drupal
+
+
+
+lampdb.cdckar08hnbm.eu-west-1.rds.amazonaws.com:3306 
+===================================================
+create database drupal;
+create user drupalt@172.31.31.184 identified by 'admin123';
+grant all on drupal.* to drupalt@172.31.31.184;
+flush privileges;
+
+=======================================================
+show tables;
+use <databasename>
+show database;
+select * from <tablename>
+==========================
+
+
+
+-===========>>
+Task:--
+
+apache tomcat intigration
+
+---->
+
+
+install in one ec2
+install in another in ec2
+
+integrate apache and tomcat (mod_proxy)
+
+in RDS
+===
+create a  database petclinic;
+create a user petclinic;
+
+give priviliges to tomcat instance to rds(user tomcat ip)
+
+================
+
+petclinic

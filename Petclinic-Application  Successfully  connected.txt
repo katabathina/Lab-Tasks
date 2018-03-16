@@ -1,0 +1,134 @@
+
+1. lanuch two ec2 instances
+
+2. first ec2 apache and second ec2 tomcat and run.
+
+3. Do integration to two servers (ProxyPass), go to Apache (vi /etc/httpd/conf/httpd.conf).
+
+ex:-<VirtualHost *:80>
+
+ProxyRequests Off
+ProxyPreserveHost On
+RedirectMatch ^/$ /petclinic
+ProxyPass /petclinic http://172.31.16.57:8080/petclinic
+ProxyPassReverse /petclinic http://172.31.16.57:8080/petclinic
+
+</VirtualHost>
+
+4. next download the petclin war file deploy to tomcat server webapps.
+
+link:-http://cliqr-appstore.s3.amazonaws.com/petclinic/petclinic.war
+
+5. install the mysql( yum install mysql-server*) in tomcat server. if not working try below first
+
+yum localinstall https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm
+
+
+next yum install mysql-server*
+
+6. start mysql (service mysqld start) and check mysql started or not
+
+netstat -anlp | grep ":3306"
+
+to check mysql version (Mysql --version)
+
+7. get the default root password for mysql (grep 'temporary password' /var/log/mysqld.log)
+
+its come like this
+
+[root@ip-172-31-31-18 tmp]# grep 'temporary password' /var/log/mysqld.log
+
+2017-12-04T07:26:50.965490Z 1 [Note] A temporary password is generated for root@localhost: Ts,xJV/Yj6hC
+
+8. reset the mysql password
+
+SET PASSWORD FOR 'root'@'localhost' = PASSWORD('MyNewPass');
+
+	.WKPdhuhE6M(
+
+ex:-
+
+SET PASSWORD FOR 'root'@'localhost' = PASSWORD('Login@123');
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+9. Create a petclinic db in mysql. ( CREATE DATABASE petclinic;)
+
+10. Download the war file from your s3 url and upload into tomcat webapps.(tomcat has to be running status and access petclinic once)
+
+11. stop tomcat and from webapps folder delete/move the petclinic.war( now you have petclinic expldoed directory in webapps folder)
+
+12 now go to webapps next select petclinc directory
+
+/opt/tomcat/webapps/petclinic/WEB-INF/classes/db/mysql
+
+vi initDB.sql (update the db username and password 2 line)
+
+for ex: GRANT ALL PRIVILEGES ON petclinic.* TO root@localhost IDENTIFIED BY 'Login@123';
+
+13. update data-access.prop with mysql entries.
+
+/opt/tomcat/webapps/petclinic/WEB-INF/classes/spring
+
+vi data-access.properties
+
+(remove all HQL and MS-SQL. ( keep only mysql lines and remove #(comments)))
+
+
+Ex:- Keep it as it like below :
+
+jpa.showSql=true
+
+#-------------------------------------------------------------------------------
+# MySQL Settings
+
+jdbc.driverClassName=com.mysql.jdbc.Driver
+jdbc.url=jdbc:mysql://localhost:3306/petclinic
+jdbc.username=root
+jdbc.password=Login@123
+
+# Properties that control the population of schema and data for a new data source
+jdbc.initLocation=classpath:db/mysql/initDB.sql
+jdbc.dataLocation=classpath:db/mysql/populateDB.sql
+
+# Property that determines which Hibernate dialect to use
+# (only applied with "applicationContext-hibernate.xml")
+hibernate.dialect=org.hibernate.dialect.MySQLDialect
+
+# Property that determines which database to use with an AbstractJpaVendorAdapter
+jpa.database=MYSQL
+
+#-------------------------------------------------------------------------------
+ # SQL Server Settingstcp:Server_Name_Here.database.windows.net;Initial Catalog=petclinic;Persist Security Info=True;User ID=;Password=***********
+#jdbc.driverClassName=com.microsoft.sqlserver.jdbc.SQLServerDriver
+#jdbc.url=jdbc:sqlserver://%DB_TIER_IP%:1433;databaseName=petclinic
+#jdbc.username=sa
+#jdbc.password=password
+
+
+
+14 . next download the mysql connector jar and place it in tomcat/lib.
+
+mysql-connector-java-5.1.5-bin.jar
+
+tomcat stop and start check.. now it will work.
+
+
+=======================================
+
+
+once upadate jar file in /opt/tomcat/lib--->restart tomcat .
+
+remove hsql and mssql databases.
+
+if apache not connected to tomcat 
+
+systemctl stop httpd
+getenforce
+setenforce 0
+
+systemctl start httpd
+
+
+
+=====================================
+

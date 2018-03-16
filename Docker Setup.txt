@@ -1,0 +1,173 @@
+	Docker Setup--->
+
+
+=========================
+Reference:https://foxutech.com/how-to-install-docker/
+
+
+
+=====================================
+
+
+
+1) first spin up ec2-instance---
+
+yum install docker----------->will get error "No package docker available".
+
+2) enable repo by creating repo file /etc/yum.repos.d
+
+/etc/yum.repos.d
+
+vi docker.repo
+
+past the below lines:-
+
+[dockerrepo]
+name=Docker Repository
+baseurl=https://yum.dockerproject.org/repo/main/centos/7
+enabled=1
+gpgcheck=1
+gpgkey=https://yum.dockerproject.org/gpg
+	
+
+ 
+:wq!
+
+3) yum update
+
+
+4) yum repolist
+
+
+5) yum install docker-engine -y
+
+
+6) systemctl start docker
+
+----->ps -ef | grep docker
+
+---->docker ps
+
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+
+-----> docker images
+
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+
+
+7) docker pull httpd
+
+pull the docker image (httpd) from local or docker hub.
+
+----> docker images
+
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+httpd               latest              6b4e03d65aa3        4 days ago          177MB
+
+
+8) docker run -itd httpd <imageid/httpd>-----> its generate contariner id.
+
+----->docker ps
+
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                NAMES
+3113d39ae6df        76da55c8019d        "/bin/sh"           29 seconds ago      Up 28 seconds                            musing_pike
+9cb1e408496d        httpd               "/bin/bash"         45 minutes ago      Up 44 minutes       0.0.0.0:80->80/tcp   vibrant_beaver
+
+
+
+7) docker exec -it f5105208d153<container id> bash--------->to login container.
+
+
+8) port number mapping:-
+
+  docker run -itd -p 80:80  httpd
+
+
+goto browser search with public ip results come like "its work!"
+
+
+========================================================================================================================================
+ 
+
+
+
+[root@ip-172-31-18-79 yum.repos.d]# docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+httpd               latest              6b4e03d65aa3        5 days ago          177MB
+[root@ip-172-31-18-79 yum.repos.d]# docker run -itd httpd
+f5105208d153195726b4cb60acacfb1461a0857ffb544d2639ab3307e8af076c
+[root@ip-172-31-18-79 yum.repos.d]# docker ps
+CONTAINER ID        IMAGE               COMMAND              CREATED             STATUS              PORTS               NAMES
+f5105208d153        httpd               "httpd-foreground"   2 seconds ago       Up 2 seconds        80/tcp              vibrant_knuth
+[root@ip-172-31-18-79 yum.repos.d]# docker exec f5105208d153 bash
+^C
+[root@ip-172-31-18-79 yum.repos.d]# ^C
+[root@ip-172-31-18-79 yum.repos.d]# docker exec -it f5105208d153 bash
+root@f5105208d153:/usr/local/apache2# exit
+exit
+[root@ip-172-31-18-79 yum.repos.d]# docker ps
+CONTAINER ID        IMAGE               COMMAND              CREATED             STATUS              PORTS               NAMES
+f5105208d153        httpd               "httpd-foreground"   48 seconds ago      Up 48 seconds       80/tcp              vibrant_knuth
+[root@ip-172-31-18-79 yum.repos.d]# docker exec -it f5105208d153 bash
+root@f5105208d153:/usr/local/apache2# ps -ef | grep httpd
+root         1     0  0 04:35 ?        00:00:00 httpd -DFOREGROUND
+daemon       6     1  0 04:35 ?        00:00:00 httpd -DFOREGROUND
+daemon       7     1  0 04:35 ?        00:00:00 httpd -DFOREGROUND
+daemon       8     1  0 04:35 ?        00:00:00 httpd -DFOREGROUND
+root       103    98  0 04:36 ?        00:00:00 grep httpd
+root@f5105208d153:/usr/local/apache2# exit
+
+[root@ip-172-31-18-79 ~]# docker run -itd -p 80:80 httpd
+119f92750e20df15e585b44c26d5474928010245a90ecb7f12b34e94ab7a9d3b
+
+
+
+
+
+
+
+
+yum install docker
+    2  cd /etc/
+    3  ls -ltr
+    4  cd yum.repos.d/
+    5  vi docker.repo
+    6  yum update
+    7  yum reposite
+    8  yum install docker-engine -y
+    9  ps -ef | grep docker
+   10  docker ps
+   11  docker
+   12  docker pull httpd
+   13  docker images
+   14  docker pas
+   15  docker ps
+
+
+docker ps
+   18  ps -ef | grep docker
+   19  yum install docker
+   20  cd
+   21  yum insall docker
+   22  cd /etc
+   23  ls -ltr
+   24  cd yum.repos.d/
+   25  ls -ltr
+   26  vi docker.repo
+   27  yum update
+   28  yum install docker-engine -y
+   29  ps -ef | grep docker
+   30  docker
+   31  yum insall docker
+   32  systemctl start docker
+   33  ps -ef | grep docker
+   34  docker ps
+   35  docker images
+   36  docker pull httpd
+   37  docker images
+   38  docker run 6b4e03d65aa3
+   39* docker run http
+   40  docker run -i -t 6b4e03d65aa3
+   41  docker run httpd
+   42  docker ps
+   43  docker run httpd

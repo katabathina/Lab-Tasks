@@ -1,0 +1,167 @@
+first install java * -Y
+
+1.first install tomcat
+
+
+2. change the name like tomcat9
+
+3. copy tomcat9 to tmp.
+
+
+4. set tomcat username and password:- ref:-tomcat username and password mykong 
+
+
+5. get below code from google		 
+
+<role rolename="manager-gui"/>
+<user username="admin" password="admincd" roles="manager-gui"/>
+
+6. goto browser:
+
+ipaddress:8080--->tomcat page will open---> here click on manager admin.
+
+ if try to open page will get error.
+
+
+
+ref link-------->https://stackoverflow.com/questions/36703856/access-tomcat-manager-app-from-different-host:-
+
+
+7. /opt/apps/tomcat9/webapps/manager/META-INF
+
+  vi context.xml
+
+see below:----
+
+or Tomcat v8.5.4 and above, the file <tomcat>/webapps/manager/META-INF/context.xml has been adjusted:
+
+<Context antiResourceLocking="false" privileged="true" >
+    <Valve className="org.apache.catalina.valves.RemoteAddrValve"
+         allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" />
+</Context>
+
+Change this file to comment the Valve:
+
+
+<Context antiResourceLocking="false" privileged="true" >
+    <!--
+    <Valve className="org.apache.catalina.valves.RemoteAddrValve"
+         allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" />
+    -->
+</Context>
+
+8. just reset the browser not tomcat:--
+
+ipaddress:8080--->tomcat page will open---> here click on manager admin.
+
+here now manger admin will open you give user id :admin and passwd:admin
+
+9. get jenkins war file :https://updates.jenkins-ci.org/download/war/2.77/jenkins.war
+
+ Deploy jenkins.war file into webapps
+
+10. next goto browser :- ipaddress:8080/jenkins
+
+ unlock jenkins page will come:-
+
+/root/.jenkins/secrets/initialAdminPassword
+Administrator password
+
+
+for Administrator password
+
+[root@ip-172-31-13-243 webapps]# cd
+[root@ip-172-31-13-243 ~]# .jenkins/secrets/initialAdminPassword
+-bash: .jenkins/secrets/initialAdminPassword: Permission denied
+[root@ip-172-31-13-243 ~]# ls -ltra
+total 40
+drwxr-x---. 10 root root 4096 Sep  4 17:36 .jenkins
+
+[root@ip-172-31-13-243 ~]# cd .jenkins/
+
+[root@ip-172-31-13-243 .jenkins]# ls -ltr
+total 32
+
+drwx------. 4 root root 4096 Sep  4 17:36 secrets
+
+[root@ip-172-31-13-243 .jenkins]# cd secrets
+
+[root@ip-172-31-13-243 secrets]# ls -ltr
+total 28
+
+-rw-r-----. 1 root root  33 Sep  4 17:36 initialAdminPassword
+
+[root@ip-172-31-13-243 secrets]# cat initialAdminPassword
+fcdea8435ff44c238d4a9ba15dd78db5--------this is the password.
+
+
+(ORRRR)
+
+ cat /root/.jenkins/secrets/initialAdminPassword
+fcdea8435ff44c238d4a9ba15dd78db5-----this is the password.
+
+
+11. copy and paste the password in unlock jenkins page after that select
+
+12. customize jenkins page will come--
+
+13. select installed suggested plugins
+
+14.  Create First Admin User
+
+Username:sreedhar	
+Password:sree2016	
+Confirm password:sree2016	
+Full name:sreedhar
+E-mail address:	test@test.com
+
+
+next ------> it will come like that
+
+                           titletitle sreedhar | log out
+
+search
+ 
+ENABLE AUTO REFRESH
+Jenkins
+ New Item
+ People
+ Build History
+ Manage Jenkins
+ My Views
+ Credentials
+collapseBuild Queue
+No builds in the queue.
+collapseBuild Executor Status
+1	Idle		
+2	Idle		
+add description
+Welcome to Jenkins!
+
+	Please create ne
+
+
+15 .Goto next tomcat2
+
+cd /opt/apps/tomcat2
+
+first go to server.xml ---
+
+here change the port numbers..
+
+   8005==>8105
+
+   8080==>8180
+
+   8443==>8543
+
+   8009==>8109
+
+:wq!
+
+now start tomcat..
+
+goto browser and search idaddress:8180----apache page will open.
+
+
+

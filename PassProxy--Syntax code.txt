@@ -1,0 +1,100 @@
+
+Proxy Pass Integraton:(Apache to Tomcat):-
+=========================================
+This is in same server(Apache and Tomcat)
+
+<VirtualHost *:80>
+
+ProxyRequests Off
+ProxyPreserveHost On
+RedirectMatch ^/$ /jenkins
+ProxyPass /jenkins http://localhost:8080/jenkins
+ProxyPassReverse /jenkins http://localhost:8080/jenkins
+
+</VirtualHost>
+
+This is in Different servers(Apache to Tomcat)
+
+<VirtualHost *:80>
+
+ProxyRequests Off
+ProxyPreserveHost On
+RedirectMatch ^/$ /petclinic
+ProxyPass /petclinic http://172.31.31.18:8080/petclinic
+ProxyPassReverse /petclinic http://172.31.31.18:8080/petclinic
+
+</VirtualHost>
+
+=============================
+
+ProxyPass Balancer---> two tomcats running on same server and apache also in same server( additionally Sticky session enabled)
+
+<VirtualHost *:80>
+	ServerName www.shoppingcart.test.com
+	RedirectMatch ^/$ /shoppingcart/
+	
+	ProxyRequests off
+	ProxyPreserveHost on
+	ProxyPass /shoppingcart balancer://shrstickysession=JSESSIONID
+	ProxyPassReverse /shoppingcart balancer://shrstickysession=JSESSIONID
+	
+	<Proxy balancer://shr>
+		BalancerMember http://localhost:8080/shoppingcart
+		BalancerMember http://localhost:10000/shoppingcart
+		
+	</Proxy>
+----------------------------------------- (the below code for balancer-manager dashboard purpose)
+<Location /balancer-manager>
+
+                SetHandler balancer-manager
+
+        </Location>
+</virtualHost>
+==============================================================
+
+
+ProxyPass Balancer---> two tomcats running on same server and apache running on different server( additionally Sticky session enabled)
+
+<VirtualHost *:80>
+	ServerName www.shoppingcart.com
+	RedirectMatch ^/$ /shoppingcart/
+	
+	ProxyRequests off
+	ProxyPreserveHost on
+	ProxyPass /shoppingcart balancer://shrstickysession=JSESSIONID
+	ProxyPassReverse /shoppingcart balancer://shrstickysession=JSESSIONID
+	
+	<Proxy balancer://shr>
+		BalancerMember http://172.31.18.36:8080/shoppingcart
+		BalancerMember http://172.31.18.36:8180/shoppingcart
+		
+	</Proxy>
+----------------------------------------- (the below code for balancer-manager dashboard purpose)
+<Location /balancer-manager>
+
+                SetHandler balancer-manager
+
+</Location>
+</virtualHost>
+
+
+
+<VirtualHost *:80>
+        ServerName www.shoppingcart.com
+        RedirectMatch ^/$ /shoppingcart/
+
+        ProxyRequests off
+        ProxyPreserveHost on
+        ProxyPass /shoppingcart balancer://shrstickysession=JSESSIONID
+        ProxyPassReverse /shoppingcart balancer://shrstickysession=JSESSIONID
+
+        <Proxy balancer://shr>
+                BalancerMember http://172.31.18.36:8080/shoppingcart
+                BalancerMember http://172.31.18.36:8180/shoppingcart
+        </Proxy>
+<Location /balancer-manager>
+
+                SetHandler balancer-manager
+</Location>
+
+</virtualHost>

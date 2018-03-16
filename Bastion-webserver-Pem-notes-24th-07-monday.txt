@@ -1,0 +1,69 @@
+sStep1:-
+ 
+Create 2 instances 1.bastion and 2.webserver.
+
+bastion souce-anywhere.
+Webserver souce- bastion sg-id.
+
+connct bastion thruough putty.
+
+change user:sudo su -
+
+Step 2:-
+
+first you upload pem file into s3.
+Copy the URL.
+
+download the file into linux ,command:
+wget (file name/url name) 
+
+incase if we get error?
+We "install wget" command
+
+"yum install wget -y"
+
+software is running or not check command:
+
+ps -ef | grep 
+
+Ex:-
+
+ps -ef | grep wget
+
+Ps -ef | grep httpd(Apache)
+
+ps -ef | grep chmod
+
+
+Step 3:-
+
+wget filename/urlname.
+
+chmod 400 filename(linuxtesting.pem)
+
+"to connect the remote server(Webserver)" Command
+
+"ssh -i (linuxtesting.pem) ec2-user@private ip(webserver)"
+
+
+Step 4:-
+
+change user to root
+
+ "sudo su -"
+
+install apache in webserver Command
+
+"yum install httpd -y"
+
+start apche command:
+
+"apachectl -k start"
+ 
+Step 5:-
+
+Go to webservers security group(sg)
+
+edit and give http -80 sourch-anywhere. 
+
+now select public ip search in browser now it will show apache page.

@@ -1,0 +1,25 @@
+
+dTask:- Computer name change:-
+
+go to linux termininal first check our hostname
+
+[root@ip-172-31-27-202 ~]# hostname
+
+ip-172-31-27-202.ap-south-1.compute.internal
+
+now temperorly change hostname:-
+
+[root@ip-172-31-27-202 ~]# hostname my.ownhostname
+
+[root@ip-172-31-27-202 ~]# hostname
+my.ownhostname
+
+the original hostname will be restored upon next reboot.
+
+
+now permanently change hostname:-
+cat /etc/sysconfig/network
+
+vi /etc/sysconfig/network
+
+

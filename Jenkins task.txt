@@ -1,0 +1,54 @@
+first i created ec2- instances
+fists i created user----in all servers
+password authentication yes to all servers--/etc/ssh/sshd.config
+service sshd reload
+user i gave sudoer permissions
+
+ssh-copy-id <usersname>ipaddress
+next i idd ssh to all servers---> visudo
+
+yum install wget
+yum install unzip
+wget tomcat-----to all servers
+wget jenkins----to only one server
+
+
+
+172.31.14.138
+172.31.29.254
+
+54.153.142.153
+172.31.10.75
+
+
+172.31.14.138 tomcat1
+172.31.38.211 tomcat2
+172.31.29.254 tomcat3
+
+
+jenkins password: jenkins123
+
+tomcat1 password:tomcat123
+tomcat2 password:tomcat2123
+tomcat3 password:tomcat3123
+
+Tomcat_user creation in Linux
+======================================================
+
+Elk----new skill----for --- log analysis
+
+
+-->
+<role rolename="manager-gui"/>
+<role rolename="manager-script"/>
+<role rolename="manager-jmx"/>
+<role rolename="manager-status"/>
+
+<user username="admin" password="admin" roles="manager-gui,manager-script,manager-jmx,manager-status"/>
+
+</tomcat-users>
+
+
+
+task:- initialize nagios
+

@@ -1,0 +1,312 @@
+ 1.first create instance.
+2.install wget
+3.install depepdencies packages.(outside system you will aws you will get link)
+(yum -y install automake libcurl gcc-c++ libcurl-devel libxml2 libxml2-devel libtool gettext gettext-devel openssl openssl-devel)
+(
+sudo yum install automake fuse fuse-devel gcc-c++ git libcurl-devel libxml2-devel make openssl-devel)
+
+4.Download the s3fs packages (tar.gz file) from internet and keep in the s3 bucket.
+5. frow s3 bucket you get into the system,and extract the file (s3fs-1.74).
+6. goto extract "s3fs-1.74" 
+7. run autogen.sh   (./autogen.sh)
+8. next run configure  (./configure.sh)
+9. sudo make install.
+10.s3fs
+11.make direcectory(sudo mkdir -p /opt/mybucket)
+12.next create s3 bucket (s3ec2)
+13.goto cd /etc
+14. open in vi passwd-s3fs
+15.goto AWS Account
+16. Select Continue to Security Credentials.
+17. Click on the "Access Keys (Access Key ID and Secret Access Key)"
+18. Click on "Create a new access key"
+19. Click on "Show access key" copy the keys
+
+Access Key ID:
+AKIAINXNVQZUHRAF7WRA
+Secret Access Key:
+7/knukwma9N3Dcx3i7nrzfW/kt+QDL7yUfg8sQJ8
+
+
+AKIAINXNVQZUHRAF7WRA:7/knukwma9N3Dcx3i7nrzfW/kt+QDL7yUfg8sQJ8
+
+20. sudo vi /etc/passwd-s3fs.
+
+in vi mode past above"AKIAINXNVQZUHRAF7WRA:7/knukwma9N3Dcx3i7nrzfW/kt+QDL7yUfg8sQJ8"
+:wq!
+21.vi /etc/fstab
+22.mount -a
+vi mode :s3fs#s3fsmyownbucket(bucketname) /opt/s3fsmyownbucket(directory path)fuse allow_other,use_cache=/tmp 0 0
+23.chmod 400 /etc/passwd-s3fs
+24. df -h. (result will show below) disk mounted.
+ 
+
+
+
+
+
+
+
+
+
+[ec2-user@ip-172-31-2-47 /]$ mount -a
+mount: only root can use "--all" option
+[ec2-user@ip-172-31-2-47 /]$ vi etc/fstab
+[ec2-user@ip-172-31-2-47 /]$ sudo vi etc/fstab
+[ec2-user@ip-172-31-2-47 /]$ mount -a
+mount: only root can use "--all" option
+[ec2-user@ip-172-31-2-47 /]$ sudo mount -a
+mount: mount point /opt/mybucketfuse does not exist
+[ec2-user@ip-172-31-2-47 /]$ sudo vi etc/fstab
+[ec2-user@ip-172-31-2-47 /]$ mount -a
+mount: only root can use "--all" option
+[ec2-user@ip-172-31-2-47 /]$ sudo mount -a
+s3fs: credentials file /etc/passwd-s3fs should not have others permissions
+[ec2-user@ip-172-31-2-47 /]$ df -h
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/xvda2       10G  1.5G  8.5G  16% /
+devtmpfs        476M     0  476M   0% /dev
+tmpfs           496M     0  496M   0% /dev/shm
+tmpfs           496M   13M  483M   3% /run
+tmpfs           496M     0  496M   0% /sys/fs/cgroup
+tmpfs           100M     0  100M   0% /run/user/1000
+[ec2-user@ip-172-31-2-47 /]$ chmod 400 /etc/passwd-s3fs
+chmod: changing permissions of ‘/etc/passwd-s3fs’: Operation not permitted
+[ec2-user@ip-172-31-2-47 /]$ sudo chmod 400 /etc/passwd-s3fs
+[ec2-user@ip-172-31-2-47 /]$ sudo vi etc/fstab
+[ec2-user@ip-172-31-2-47 /]$ mount -a
+mount: only root can use "--all" option
+[ec2-user@ip-172-31-2-47 /]$ sudo mount -a
+[ec2-user@ip-172-31-2-47 /]$ df -h
+df: ‘/opt/mybucket’: Transport endpoint is not connected
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/xvda2       10G  1.5G  8.5G  16% /
+devtmpfs        476M     0  476M   0% /dev
+tmpfs           496M     0  496M   0% /dev/shm
+tmpfs           496M   13M  483M   3% /run
+tmpfs           496M     0  496M   0% /sys/fs/cgroup
+tmpfs           100M     0  100M   0% /run/user/1000
+
+
+
+
+
+
+
+error:-
+
+
+[ec2-user@ip-172-31-2-47 s3fs-1.74]$
+[ec2-user@ip-172-31-2-47 s3fs-1.74]$ vi /etc/fstab
+[ec2-user@ip-172-31-2-47 s3fs-1.74]$ mount -a
+mount: only root can use "--all" option
+[ec2-user@ip-172-31-2-47 s3fs-1.74]$ sudo mount -a
+[ec2-user@ip-172-31-2-47 s3fs-1.74]$ ll
+
+[ec2-user@ip-172-31-2-47 s3fs-1.74]$ cd /etc
+[ec2-user@ip-172-31-2-47 etc]$ ls -ltr
+total 1044
+
+[ec2-user@ip-172-31-2-47 etc]$ cd ..
+[ec2-user@ip-172-31-2-47 /]$ cat /etc/passwd-s3fs
+cat: /etc/passwd-s3fs: No such file or directory
+[ec2-user@ip-172-31-2-47 /]$ cd /etc
+[ec2-user@ip-172-31-2-47 etc]$ vi passwd
+[ec2-user@ip-172-31-2-47 etc]$ vi passwd-s3fs
+[ec2-user@ip-172-31-2-47 etc]$ vi passwd-s3fs
+[ec2-user@ip-172-31-2-47 etc]$ ll
+
+[ec2-user@ip-172-31-2-47 etc]$ vi passwd-s3fs
+[ec2-user@ip-172-31-2-47 etc]$ cd ..
+[ec2-user@ip-172-31-2-47 /]$ mount -a
+mount: only root can use "--all" option
+[ec2-user@ip-172-31-2-47 /]$ echo AKIAINXNVQZUHRAF7WRA:7/knukwma9N3Dcx3i7nrzfW/kt+QDL7yUfg8sQJ8 >/etc/passwd-s3fs
+-bash: /etc/passwd-s3fs: Permission denied
+[ec2-user@ip-172-31-2-47 /]$ sudo echo AKIAINXNVQZUHRAF7WRA:7/knukwma9N3Dcx3i7nrzfW/kt+QDL7yUfg8sQJ8 >/etc/passwd-s3fs
+-bash: /etc/passwd-s3fs: Permission denied
+[ec2-user@ip-172-31-2-47 /]$ chmod 400 /etc/passwd-s3fs
+chmod: cannot access ‘/etc/passwd-s3fs’: No such file or directory
+[ec2-user@ip-172-31-2-47 /]$ sudo chmod 400 /etc/passwd-s3fs
+chmod: cannot access ‘/etc/passwd-s3fs’: No such file or directory
+[ec2-user@ip-172-31-2-47 /]$ sudo su -
+[root@ip-172-31-2-47 ~]# cd /home/ec2-user
+[root@ip-172-31-2-47 ec2-user]# chmod 400 /etc/passwd-s3fs
+chmod: cannot access ‘/etc/passwd-s3fs’: No such file or directory
+[root@ip-172-31-2-47 ec2-user]# cd /
+[root@ip-172-31-2-47 /]# su ec2-user
+[ec2-user@ip-172-31-2-47 /]$ chmod 400 /etc/passwd-s3fs
+chmod: cannot access ‘/etc/passwd-s3fs’: No such file or directory
+[ec2-user@ip-172-31-2-47 /]$ chmod -R 400 /etc/passwd-s3fs
+chmod: cannot access ‘/etc/passwd-s3fs’: No such file or directory
+[ec2-user@ip-172-31-2-47 /]$ vi /etc/passwd-s3fs
+[ec2-user@ip-172-31-2-47 /]$ sudo vi /etc/passwd-s3fs
+[ec2-user@ip-172-31-2-47 /]$ ^C
+[ec2-user@ip-172-31-2-47 /]$ mount -a
+mount: only root can use "--all" option
+[ec2-user@ip-172-31-2-47 /]$ vi etc/fstab
+[ec2-user@ip-172-31-2-47 /]$ sudo vi etc/fstab
+[ec2-user@ip-172-31-2-47 /]$ mount -a
+mount: only root can use "--all" option
+[ec2-user@ip-172-31-2-47 /]$ sudo mount -a
+mount: mount point /opt/mybucketfuse does not exist
+[ec2-user@ip-172-31-2-47 /]$ sudo vi etc/fstab
+[ec2-user@ip-172-31-2-47 /]$ mount -a
+mount: only root can use "--all" option
+[ec2-user@ip-172-31-2-47 /]$ sudo mount -a
+s3fs: credentials file /etc/passwd-s3fs should not have others permissions
+[ec2-user@ip-172-31-2-47 /]$ df -h
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/xvda2       10G  1.5G  8.5G  16% /
+devtmpfs        476M     0  476M   0% /dev
+tmpfs           496M     0  496M   0% /dev/shm
+tmpfs           496M   13M  483M   3% /run
+tmpfs           496M     0  496M   0% /sys/fs/cgroup
+tmpfs           100M     0  100M   0% /run/user/1000
+[ec2-user@ip-172-31-2-47 /]$ chmod 400 /etc/passwd-s3fs
+chmod: changing permissions of ‘/etc/passwd-s3fs’: Operation not permitted
+[ec2-user@ip-172-31-2-47 /]$ sudo chmod 400 /etc/passwd-s3fs
+[ec2-user@ip-172-31-2-47 /]$ sudo vi etc/fstab
+[ec2-user@ip-172-31-2-47 /]$ mount -a
+mount: only root can use "--all" option
+[ec2-user@ip-172-31-2-47 /]$ sudo mount -a
+[ec2-user@ip-172-31-2-47 /]$ df -h
+df: ‘/opt/mybucket’: Transport endpoint is not connected
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/xvda2       10G  1.5G  8.5G  16% /
+devtmpfs        476M     0  476M   0% /dev
+tmpfs           496M     0  496M   0% /dev/shm
+tmpfs           496M   13M  483M   3% /run
+tmpfs           496M     0  496M   0% /sys/fs/cgroup
+tmpfs           100M     0  100M   0% /run/user/1000
+[ec2-user@ip-172-31-2-47 /]$ ^C
+[ec2-user@ip-172-31-2-47 /]$ cd /opt
+[ec2-user@ip-172-31-2-47 opt]$ ls -ltr
+ls: cannot access mybucket: Transport endpoint is not connected
+total 0
+d????????? ? ? ? ?            ? mybucket
+[ec2-user@ip-172-31-2-47 opt]$ sudo chmod 777 /etc/passwd-s3fs
+[ec2-user@ip-172-31-2-47 opt]$ cd /opt
+[ec2-user@ip-172-31-2-47 opt]$ sudo mkdir -p hellworld
+[ec2-user@ip-172-31-2-47 opt]$ ls -ltr
+ls: cannot access mybucket: Transport endpoint is not connected
+total 0
+d?????????? ? ?    ?    ?            ? mybucket
+drwxr-xr-x. 2 root root 6 Aug 23 11:25 hellworld
+[ec2-user@ip-172-31-2-47 opt]$ sudo vi etc/fstab
+[ec2-user@ip-172-31-2-47 opt]$ cd /
+[ec2-user@ip-172-31-2-47 /]$ sudo vi etc/fstab
+[ec2-user@ip-172-31-2-47 /]$ mount -a
+mount: only root can use "--all" option
+[ec2-user@ip-172-31-2-47 /]$ sudo mount -a
+mount: mount point /opt/hellworldfuse does not exist
+[ec2-user@ip-172-31-2-47 /]$ cd /opt
+[ec2-user@ip-172-31-2-47 opt]$ ls -ltr
+ls: cannot access mybucket: Transport endpoint is not connected
+total 0
+d?????????? ? ?    ?    ?            ? mybucket
+drwxr-xr-x. 2 root root 6 Aug 23 11:25 hellworld
+[ec2-user@ip-172-31-2-47 opt]$ sudo vi etc/fstab
+[ec2-user@ip-172-31-2-47 opt]$ cd /
+[ec2-user@ip-172-31-2-47 /]$ sudo vi etc/fstab
+[ec2-user@ip-172-31-2-47 /]$ mount -a
+mount: only root can use "--all" option
+[ec2-user@ip-172-31-2-47 /]$ df -h
+df: ‘/opt/mybucket’: Transport endpoint is not connected
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/xvda2       10G  1.5G  8.5G  16% /
+devtmpfs        476M     0  476M   0% /dev
+tmpfs           496M     0  496M   0% /dev/shm
+tmpfs           496M   13M  483M   3% /run
+tmpfs           496M     0  496M   0% /sys/fs/cgroup
+tmpfs           100M     0  100M   0% /run/user/1000
+[ec2-user@ip-172-31-2-47 /]$ sudo vi etc/fstab
+[ec2-user@ip-172-31-2-47 /]$ mount -a
+mount: only root can use "--all" option
+[ec2-user@ip-172-31-2-47 /]$ df -h
+df: ‘/opt/mybucket’: Transport endpoint is not connected
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/xvda2       10G  1.5G  8.5G  16% /
+devtmpfs        476M     0  476M   0% /dev
+tmpfs           496M     0  496M   0% /dev/shm
+tmpfs           496M   13M  483M   3% /run
+tmpfs           496M     0  496M   0% /sys/fs/cgroup
+tmpfs           100M     0  100M   0% /run/user/1000
+[ec2-user@ip-172-31-2-47 /]$ exit
+exit
+[root@ip-172-31-2-47 /]# cd /home/ec2-user
+[root@ip-172-31-2-47 ec2-user]# chmod -R 777
+chmod: missing operand after ‘777’
+Try 'chmod --help' for more information.
+[root@ip-172-31-2-47 ec2-user]# /home/ec2-user
+-bash: /home/ec2-user: Is a directory
+[root@ip-172-31-2-47 ec2-user]# cd/
+-bash: cd/: No such file or directory
+[root@ip-172-31-2-47 ec2-user]# cd
+[root@ip-172-31-2-47 ~]# cd /homoe
+-bash: cd: /homoe: No such file or directory
+[root@ip-172-31-2-47 ~]# cd /home
+[root@ip-172-31-2-47 home]# ls -ltr
+total 0
+drwx------. 4 ec2-user ec2-user 136 Aug 23 11:39 ec2-user
+[root@ip-172-31-2-47 home]# chmod -R 777 ec2-user
+[root@ip-172-31-2-47 home]# su ec2-user
+[ec2-user@ip-172-31-2-47 home]$ cd/
+bash: cd/: No such file or directory
+[ec2-user@ip-172-31-2-47 home]$ cd
+[ec2-user@ip-172-31-2-47 ~]$ vi etc/fstab
+[ec2-user@ip-172-31-2-47 ~]$ mount -a
+mount: only root can use "--all" option
+[ec2-user@ip-172-31-2-47 ~]$ ls -ltr
+total 200
+-rwxrwxrwx. 1 root     root     199120 Aug 23 09:22 s3fs-1.74.tar.gz
+drwxrwxrwx. 5 ec2-user ec2-user   4096 Aug 23 09:44 s3fs-1.74
+[ec2-user@ip-172-31-2-47 ~]$ cd /home
+[ec2-user@ip-172-31-2-47 home]$ ls -ltr
+total 0
+drwxrwxrwx. 4 ec2-user ec2-user 136 Aug 23 11:39 ec2-user
+[ec2-user@ip-172-31-2-47 home]$ exit
+exit
+[root@ip-172-31-2-47 home]# chmod -r 755 ec2-user
+chmod: cannot access ‘755’: No such file or directory
+[root@ip-172-31-2-47 home]# cd /
+[root@ip-172-31-2-47 /]# chmod -r 755 ec2-user
+chmod: cannot access ‘755’: No such file or directory
+chmod: cannot access ‘ec2-user’: No such file or directory
+[root@ip-172-31-2-47 /]# chmod -R 755 ec2-user
+chmod: cannot access ‘ec2-user’: No such file or directory
+[root@ip-172-31-2-47 /]# vi etc/fstab
+[root@ip-172-31-2-47 /]# mount -a
+s3fs: credentials file /etc/passwd-s3fs should not have others permissions
+[root@ip-172-31-2-47 /]# chmod 655 /passwd-s3fs
+chmod: cannot access ‘/passwd-s3fs’: No such file or directory
+[root@ip-172-31-2-47 /]# chmod 655 /etc/passwd-s3fs
+[root@ip-172-31-2-47 /]# vi etc/fstab
+[root@ip-172-31-2-47 /]# mount -a
+s3fs: credentials file /etc/passwd-s3fs should not have others permissions
+[root@ip-172-31-2-47 /]# ls -ltr
+
+[root@ip-172-31-2-47 /]# vi /etc/fstab
+[root@ip-172-31-2-47 /]# mount -a
+s3fs: credentials file /etc/passwd-s3fs should not have others permissions
+[root@ip-172-31-2-47 /]# chmod 400 /etc/passwd-s3fs
+[root@ip-172-31-2-47 /]# mount -a
+[root@ip-172-31-2-47 /]# df -h
+df: ‘/opt/mybucket’: Transport endpoint is not connected
+df: ‘/opt/hellworld’: Transport endpoint is not connected
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/xvda2       10G  1.5G  8.5G  16% /
+devtmpfs        476M     0  476M   0% /dev
+tmpfs           496M     0  496M   0% /dev/shm
+tmpfs           496M   13M  483M   3% /run
+tmpfs           496M     0  496M   0% /sys/fs/cgroup
+tmpfs           100M     0  100M   0% /run/user/1000
+[root@ip-172-31-2-47 /]# vi /etc/fstab
+[root@ip-172-31-2-47 /]# mount -a
+mount: mount point /opt/hellworldfuse does not exist
+[root@ip-172-31-2-47 /]# vi /etc/fstab
+[root@ip-172-31-2-47 /]# mount -a
+s3fs: unable to access MOUNTPOINT /opt/hellworld: Transport endpoint is not connected
+
+
+
+ 

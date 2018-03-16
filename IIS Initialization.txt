@@ -1,0 +1,38 @@
+1.first create the windows server.
+
+2.connect to the windowserver through mstsc.
+
+3.go to windows server desktop.
+
+4. goto server manager , it will open server manager console.
+
+5. select  add roles and features.
+
+6. select to next next next and next webserver(IIS) and next install.
+
+7. Next go to the "services.msc" and search for "Worldwide web publishing Service" afterthat start
+
+"Worldwide Web Publishing Service"
+
+8. after that open run prompt "inetmgr" in IIS Manager Console.
+
+9. Expand EC2IMAZ under you wil get applicaton pool and websites.
+
+10. if click application pool right side you will get start and stop and recycle and add new appliction pools list will be there.
+11. if click default webite right side you will get start and stop and restart and add new website options will be there.
+
+12. if you get error problems go and check:c:inetpub/logs/logfiles/w3csvc.
+
+13. Directory permissions change select Directory right click->properties->click on the IIS users.
+
+
+
+Public DNS	ec2-52-66-191-252.ap-south-1.compute.amazonaws.com
+User name	Administrator
+Password	
+7hff=!n@$N7-Xxb-)9;GR;cd6*.VBlM-
+
+Public DNS	ec2-13-126-125-206.ap-south-1.compute.amazonaws.com
+User name	Administrator
+Password	
+7hff=!n@$N7-Xxb-)9;GR;cd6*.VBlM-

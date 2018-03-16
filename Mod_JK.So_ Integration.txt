@@ -1,0 +1,11 @@
+
+
+/etc/httpd/modules
+
+
+https://tomcat.apache.org/download-connectors.cgi
+
+JK 1.2.42 Source Release tar.gz (e.g. Unix, Linux, Mac OS)
+
+http://www.diegoacuna.me/installing-mod_jk-on-apache-httpd-in-centos-6-x7-x/   ----->mod_Jk proxy
+

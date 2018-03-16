@@ -1,0 +1,231 @@
+
+10.50.0.0/16
+
+vpc ----name:--Mum-Ind-RHEL
+
+10.50.0.0/20----Mum-Ind-RHEL-PubSub-a
+10.50.16.0/20----Mum-Ind-RHEL-PubSub-b
+
+
+10.50.32.0/20---Mum-Ind-RHEL-PriSub-a	
+10.50.48.0/20---Mum-Ind-RHEL-PriSub-b
+
+
+Elastic IP
+35.154.223.110
+
+NAT Gateway ID
+nat-08376a4a7240ceffe
+
+
+
+Mum-Ind-RHEL-Pubroutetable
+
+Mum-Ind-RHEL-Priroutetable
+
+created -sg
+===========
+
+bastion--->RDS-3306-anywhere
+           http-80--anywhere
+
+elb----http---80---anywhere
+
+alb---http---80---anywhere
+
+
+web:-
+=====
+http---80---(alb-sg)/10.50.0.0./16
+
+ssh-22-(bastion-sg)/10.50.0.0/16
+
+app:-
+====
+
+customtcp----8080---(web-sg)/10.50.0.0/16
+customtcp---8009---(web-sg)/10.50.0.0/16
+
+ssh-22-(bastion-sg)/10.50.0.0/16
+
+===
+rds--->3306--10.50.0.0/16
+
+
+
+
+========
+
+
+Public DNS	ec2-35-154-155-51.ap-south-1.compute.amazonaws.com
+User name	Administrator
+Password	
+PD%y7(@D4Ufwf;osF.oOh35j!UmerOU(
+
+=========
+lampdb.cscxue5ef6w0.ap-south-1.rds.amazonaws.com:3306
+
+
+=========
+
+passwd less :-error
+
+
+[ansible@ip-10-50-38-72 .ssh]$ ssh-copy-id 10.50.47.128
+/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/ansible/.ssh/id_rsa.pub"
+
+
+
+==========
+
+webzone1 :  10.50.38.72
+webzone2 :  10.50.51.113
+
+appzone1  : 10.50.47.128
+
+appzone2  : 10.50.57.224
+
+==========
+Created directory:-
+
+webzone-- installed apache---
+/root/scripts
+
+appzone--
+install tomcat
+=============
+
+Tue Sep 26 10:22:52 UTC 2017
+
+15 10 * * 6 /scripts/apachestop.sh >/tmp/test.log
+
+
+28 10 * * * /scripts/tomcatstop.sh >/tmp/test.log	
+
+Tue Sep 26 10:29:03 UTC 2017
+
+
+55 23 * * *
+
+00 00 * * * 
+
+55 23 * * * /root/scripts/tomcatstop.sh >/tmp/test.log
+00 00 * * * /root/scripts/tomcatstart.sh >/tmp/test.log
+
+
+
+42 10 * * * /root/scripts/tomcatstop.sh >/tmp/test.log
+50 10 * * * /root/scripts/tomcatstart.sh >/tmp/test.log
+18 11 * * * /root/scripts/apachestart.sh >/tmp/test.log
+22 11 * * * /root/scripts/apachestop.sh >/tmp/test.log
+
+
+55 23 * * * /root/scripts/tomcatstop.sh >/tmp/test.log
+00 00 * * * /root/scripts/tomcatstart.sh >/tmp/test.log
+
+00 00 * * * /root/scripts/apachestart.sh >/tmp/test.log
+55 23 * * * /root/scripts/apachestop.sh >/tmp/test.log
+
+====================================
+
+#!/bin/bash
+#apache atomatically stop everyday 11.55 pm
+
+apachestop="$(systemctl stop httpd)"
+
+echo "stop for apache=$apachestop apache is stopped"
+
+
+#!/bin/bash
+#apache atomatically start everyday 12.00 am
+
+apachestart="$(systemctl start httpd)"
+
+echo "start for apache=$apachestart apache is startted"
+
+
+----------
+
+
+#!/bin/bash
+#tomcat automatically stop everyday 11.55 pm
+
+tomcatstop="$(/opt/apache-tomcat-9.0.0.M26/bin/./shutdown.sh)"
+
+echo "stop for tomcat=$tomcatstop tomcat is stopped"
+
+
+
+#!/bin/bash
+#tomcat automatically start everyday 12.00 am.
+
+tomcatstart="$(/opt/apache-tomcat-9.0.0.M26/bin/./startup.sh)"
+
+echo "start for tomcat=$tomcatstart tomcat is started"
+
+
+=======
+proxypass
+
+
+
+
+<VirtualHost *:80>
+
+ProxyRequests Off
+ProxyPreserveHost On
+RedirectMatch ^/$ /shoppingcart
+ProxyPass /shoppingcart http://localhost:8080/shoppingcart
+ProxyPassReverse /shoppingcart http://localhost:8080/shoppingcart
+
+</VirtualHost>
+
+"the above one for same server apache and tomcat integration"
+=================
+<VirtualHost *:80>
+
+ProxyRequests Off
+ProxyPreserveHost On
+RedirectMatch ^/$ /shoppingcart/
+ProxyPass /shoppingcart/ http://10.50.57.224:8080/shoppingcart/
+ProxyPassReverse /shoppingcart/ http://10.50.57.224:8080/shoppingcart/
+
+
+<VirtualHost *:80>
+
+ProxyRequests Off
+ProxyPreserveHost On
+RedirectMatch ^/$ /shoppingcart/
+ProxyPass /shoppingcart/ http://10.50.57.224:8080/shoppingcart/
+ProxyPassReverse /shoppingcart/ http://10.50.57.224:8080/shoppingcart/
+
+</VirtualHost>
+
+
+after that----:
+
+=============
+systemctl stop httpd
+systemctl start httpd
+
+setsebool httpd_can_network_connect 1
+
+
+next go and check alb dns:--
+
+http://mum-ind-rhel-alb-1125255178.ap-south-1.elb.amazonaws.com/shoppingcart/
+
+
+
+
+
+
+
+===================
+
+load balancer:
+
+Mum-Ind-RHEL-alb
+
+>> /tmp/test.log 2>&1
+

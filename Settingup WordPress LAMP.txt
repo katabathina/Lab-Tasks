@@ -1,0 +1,90 @@
+
+Setting -up :wordpress LAMP
+
+L=Linux ,A=Apache,M= MySql,P=Php
+
+=================================
+
+1.first create RDS.
+
+
+DB Instance Identifier:wordpressdb
+master username: wordpressadmin
+master password:sree2016
+confirm password:sree2016
+
+done.
+
+2. Lanch ec2 instance.
+3. Download the wordpress 
+  from browser-->copy link address.
+
+yum install httpd -y ----->Apache.
+
+go to cd /var/www/html
+
+yum install wget------>install wget
+
+zip file come
+
+unzip file.
+ 
+mv * /var/www/html
+
+rm -rf zip file.
+
+goto cd /etc/httpd/conf
+
+cp httpd.conf httpd.conf.20170829--->copy the httpd.conf file
+
+goto vi httpd.conf
+  <DirectoryIndex
+
+    DirectoryIndex index.html--->default one
+    DirectoryIndex index.php---> to change like this.
+
+next start apache--->systemctl start httpd
+
+
+next install php----->yum install php* -y
+
+next stop apache--->systemctl stop httpd
+next start apache---->systemctl start httpd
+
+next go to cd /var/www/html
+cp wp-config-sample.php  wp-config.php
+
+goto RDS take endpoint
+
+yum install mysql * -y ----> to connect database.
+
+goto vi wp-config.php
+
+// ** MySQL settings - You can get this info from your web host ** //
+/** The name of the database for WordPress */
+define('DB_NAME', 'wordpressdb');
+
+/** MySQL database username */
+define('DB_USER', 'wordpressadmin');
+
+/** MySQL database password */
+define('DB_PASSWORD', 'sree2016');
+
+/** MySQL hostname */
+define('DB_HOST', 'wordpressdb.cjjallpkagb9.ap-south-1.rds.amazonaws.com:3306');
+
+
+yum install mysql
+
+next 
+
+mysql -h <endpointname>wordpressdb.cjjallpkagb9.ap-south-1.rds.amazonaws.com:3306 -u <username>wordpressadmin -p
+
+
+
+
+Your PHP installation appears to be missing the MySQL extension which is required by WordPress.
+
+
+
+ 

@@ -1,0 +1,163 @@
+LAMP-Linux Apache MySql Php----------------->Wordpress.
+=============================================================
+1. first lanuch rds.
+
+sg-3306-anywhere...
+
+
+
+DB Instance Identifier:lampdb-------mysql
+
+Master Username:Admin-------------mysql
+Master Password:admin123
+confirm Password:admin123
+
+
+2 .Launch Ec2-instance---(lamp)--> Port No --22 --anywhere, http --80- anywhere.
+
+yum install httpd---
+
+systemctl start httpd----
+
+yum install php----
+
+yum install mysql---
+
+yum install php-mysql
+
+mkdir /opt/wordpress---
+
+wget wordpress link---- (copy link from browser)
+
+latest.zip fill come
+
+yum install unzip-----
+
+unzip latest.zip----unzip file its creates wordpress directory---
+
+goto wordpress directory---
+
+mv * ../   -----> all files move one directory back.
+
+
+comeback and give permissions to wordpress directory 777----------(chmod -R 777 wordpress)
+
+go to cd /etc/httpd/conf
+
+vi httpd.conf
+
+goto DocumentRoot /var/www/html  ---replace with /opt/wordpress---- Line num--120,132
+
+next---DirectoryIndex-----index.php---line num 165
+
+systemctl stop httpd
+
+systemctl start httpd
+
+
+
+from ec2-user-->
+
+mysql -h <endpoint name> -u admin(username) -p
+
+mysql -h lampdb.chgr6v0n41ov.ap-southeast-2.rds.amazonaws.com -u admin -p
+
+here it will ask admin password:admin123
+
+screen come like below---->
+
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MySQL connection id is 26
+Server version: 5.6.35-log MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2017, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MySQL [(none)]>
+
+
+
+CREATE USER wordpress@172.31.1.80 IDENTIFIED BY "admin123";
+create database wordpress;
+GRANT ALL ON wordpress.* TO wordpress@172.31.1.80;
+FLUSH PRIVILEGES;
+
+show databases;-----to run this it will show list of databases like below
+
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| innodb             |
+| lampdb             |
+| mysql              |
+| performance_schema |
+| sys                |
+| wordpress          |
++--------------------+
+7 rows in set (0.00 sec)
+
+
+next come to root user-----.
+
+
+goto ec2----->cd /opt/wordpress
+
+mv  wp-config-sample.php  wp-config.php----->re naming like wp-config-sample.php  to wp-config.php.
+
+
+from ec2---
+
+goto vi wp-config.php
+
+change below---->
+
+
+ 21 // ** MySQL settings - You can get this info from your web host ** //
+     22 /** The name of the database for WordPress */
+     23 define('DB_NAME', 'wordpress');
+     24
+     25 /** MySQL database username */
+     26 define('DB_USER', 'wordpress');
+     27
+     28 /** MySQL database password */
+     29 define('DB_PASSWORD', 'admin123');
+     30
+     31 /** MySQL hostname */
+     32 define('DB_HOST', 'lampdb.chgr6v0n41ov.ap-southeast-2.rds.amazonaws.com:3306');
+
+:wq!
+
+systemctl stop httpd
+systemctl start httpd
+
+getenforce
+
+setenforce 0
+
+
+now go and check in brower with public ip(13.210.95.225).
+
+here wordpress admin page will open--  (http://13.210.95.225/wp-admin/install.php) 
+
+
+ fill details like 
+
+site Title:testsreedharkumar
+username:admin
+password:DdXSQDC#eqNl)loYVr
+youremail:test@gmail.com
+
+finally click install------
+
+
+now login your wordpress admin page withcredentials-----
+
+username:admin
+password:DdXSQDC#eqNl)loYVr
+
+
+
+====================================================================================================
+

@@ -1,0 +1,273 @@
+Tasks:--
+
+(link/;- https://www.youtube.com/watch?v=OKQ2iHTeUE8)
+
+Task 1:- Create volume and attach to server(Infrasever)
+        
+        /opt/apache.....1gb
+        /opt/logs.......1gb
+        /opt/jboss......5gb
+        /nts-data.......2gb
+        /opt/nagios.....2gb
+
+Steps:-
+
+1. First create instance.
+2. after that create one volume and attach to instance.
+3. Go to putty check commnad how partitions/harddisk command:lsblk or(fdisk -l)
+4. result it will added like this "xvdf"
+5. hard disk format command :mkfs.ext4 /dev/xvdf
+6. after that create a directory in /opt
+7. directory name like mkdir tomcat
+8 mount partition like: mount /dev/xvdf /opt/tomcat
+9. after that confirmation purpose check command : df -h
+10. result come like this :/dev/xvdf        20G   45M   19G   1% /opt/tomcat 
+
+
+permanently mount command : vi /etc/fstab
+
+ insert mode will be open insert
+
+"/dev/xvdf /opt/tomcat ext4 defaults,nofail 0"
+
+after that give: mount /opt/tomcat 
+
+	check : df -h (result)
+
+
+xvdf    202:80   0   1G  0 disk
+xvdg    202:96   0   1G  0 disk
+xvdh    202:112  0   5G  0 disk
+xvdi    202:128  0   2G  0 disk
+xvdj    202:144  0   2G  0 disk
+
+
+
+
+--->>>> If You want add multiple voulumes at a time:
+
+example-
+
+NAME    MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
+xvda    202:0    0  10G  0 disk
++-xvda1 202:1    0   1M  0 part
++-xvda2 202:2    0  10G  0 part /
+xvdf    202:80   0   1G  0 disk
+xvdg    202:96   0   1G  0 disk
+xvdh    202:112  0   5G  0 disk
+xvdi    202:128  0   2G  0 disk
+xvdj    202:144  0   2G  0 disk
+
+
+first you do :
+
+   1. mkfs.ext4 -t /dev/xvdf
+   2. mkfs.ext4  /dev/xvdf
+   3. mkfs.ext4  /dev/xvdg
+   4. mkfs.ext4  /dev/xvdh
+   5. mkfs.ext4  /dev/xvdi
+   6. mkfs.ext4  /dev/xvdj
+
+After that go to vi mode:
+
+[root@ip-172-31-3-79 /]# vi /etc/fstab
+
+/dev/xvdf /opt/apache ext4 defaults,nofail 0
+/dev/xvdg /opt/logs ext4 defaults,nofail 0
+/dev/xvdh /nfs-data ext4 defaults,nofail 0
+/dev/xvdi /opt/jboss ext4 defaults,nofail 0
+/dev/xvdj /opt/nagios ext4 defaults,nofail 0
+
+After that:-
+
+[root@ip-172-31-3-79 /]# mount -a
+
+[root@ip-172-31-3-79 /]# df -h
+
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/xvda2       10G  979M  9.1G  10% /
+devtmpfs        477M     0  477M   0% /dev
+tmpfs           496M     0  496M   0% /dev/shm
+tmpfs           496M   13M  483M   3% /run
+tmpfs           496M     0  496M   0% /sys/fs/cgroup
+tmpfs           100M     0  100M   0% /run/user/1000
+/dev/xvdf       976M  2.6M  907M   1% /opt/apache
+/dev/xvdg       976M  2.6M  907M   1% /opt/logs
+/dev/xvdh       4.8G   20M  4.6G   1% /nfs-data
+/dev/xvdi       2.0G  6.0M  1.8G   1% /opt/jboss
+
+
+
+
+Error:-
+
+i tried ontherway;-
+
+
+coming like this:
+
+[root@ip-172-31-29-101 /]# mount -a
+mount: /etc/fstab: parse error: ignore entry at line 10.
+mount: /etc/fstab: parse error: ignore entry at line 11.
+mount: /etc/fstab: parse error: ignore entry at line 12.
+mount: /etc/fstab: parse error: ignore entry at line 13.
+mount: /etc/fstab: parse error: ignore entry at line 14.
+mount: wrong fs type, bad option, bad superblock on /dev/xvdi,
+       missing codepage or helper program, or other error
+
+       In some cases useful info is found in syslog - try
+       dmesg | tail or so.
+mount: wrong fs type, bad option, bad superblock on /dev/xvdi,
+       missing codepage or helper program, or other error
+
+       In some cases useful info is found in syslog - try
+       dmesg | tail or so.
+mount: wrong fs type, bad option, bad superblock on /dev/xvdi,
+       missing codepage or helper program, or other error
+
+       In some cases useful info is found in syslog - try
+       dmesg | tail or so.
+mount: wrong fs type, bad option, bad superblock on /dev/xvdi,
+       missing codepage or helper program, or other error
+
+       In some cases useful info is found in syslog - try
+       dmesg | tail or so.
+mount: wrong fs type, bad option, bad superblock on /dev/xvdi,
+       missing codepage or helper program, or other error
+
+       In some cases useful info is found in syslog - try
+       dmesg | tail or so.
+[root@ip-172-31-29-101 /]# lsblk
+NAME    MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
+xvda    202:0    0  10G  0 disk
++-xvda1 202:1    0   1M  0 part
++-xvda2 202:2    0  10G  0 part /
+xvdf    202:80   0   1G  0 disk
+xvdg    202:96   0   1G  0 disk
+xvdh    202:112  0   5G  0 disk
+xvdi    202:128  0   2G  0 disk
+xvdj    202:144  0   2G  0 disk
+[root@ip-172-31-29-101 /]# df -h
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/xvda2       10G  979M  9.1G  10% /
+devtmpfs        477M     0  477M   0% /dev
+tmpfs           496M     0  496M   0% /dev/shm
+tmpfs           496M   13M  483M   3% /run
+tmpfs           496M     0  496M   0% /sys/fs/cgroup
+tmpfs           100M     0  100M   0% /run/user/1000
+
+/dev/xvdj       2.0G  6.0M  1.8G   1% /opt/nagios
+
+
+
+
+[root@ip-172-31-29-101 /]# vi /etc/fstab
+
+/etc/fstab
+# Created by anaconda on Tue Jun 13 15:16:06 2017
+#
+# Accessible filesystems, by reference, are maintained under '/dev/disk'
+# See man pages fstab(5), findfs(8), mount(8) and/or blkid(8) for more info
+#
+UUID=00a738da-7c2a-458c-83c0-2420aaed3b8a /                       xfs     defaults        0 0
+
+UUID=00a738da-7c2a-458c-83c0-2420aaed3b8a /                       xfs     defaults        0 0
+/dev/xvdf /opt/apache                     /                       ext4    defaults        0 0
+/dev/xvdg /opt/logs                       /                       ext4    defaults        0 0
+/dev/xvdh /nfs-data                       /                       ext4    defaults        0 0
+/dev/xvdi /opt/jboss                      /                       ext4    defaults        0 0
+/dev/xvdj /opt/nagios                     /                       ext4    defaults        0 0
+
+:wq!
+
+
+[root@ip-172-31-29-101 /]# mount -a
+mount: /etc/fstab: parse error: ignore entry at line 10.
+mount: /etc/fstab: parse error: ignore entry at line 11.
+mount: /etc/fstab: parse error: ignore entry at line 12.
+mount: /etc/fstab: parse error: ignore entry at line 13.
+mount: /etc/fstab: parse error: ignore entry at line 14.
+
+[root@ip-172-31-29-101 /]# df -h
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/xvda2       10G  979M  9.1G  10% /
+devtmpfs        477M     0  477M   0% /dev
+tmpfs           496M     0  496M   0% /dev/shm
+tmpfs           496M   13M  483M   3% /run
+tmpfs           496M     0  496M   0% /sys/fs/cgroup
+tmpfs           100M     0  100M   0% /run/user/1000
+[root@ip-172-31-29-101 /]# lsblk
+NAME    MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
+xvda    202:0    0  10G  0 disk
++-xvda1 202:1    0   1M  0 part
++-xvda2 202:2    0  10G  0 part /
+xvdf    202:80   0   1G  0 disk
+xvdg    202:96   0   1G  0 disk
+xvdh    202:112  0   5G  0 disk
+xvdi    202:128  0   2G  0 disk
+xvdj    202:144  0   2G  0 disk
+
+-----------------------------------------------------------------------
+
+/dev/xvdf /opt/apache ext4 defaults,nofail 0
+/dev/xvdg /opt/logs ext4 defaults,nofail 0
+/dev/xvdh /nfs-data ext4 defaults,nofail 0
+/dev/xvdi /opt/jboss ext4 defaults,nofail 0
+/dev/xvdj /opt/nagios ext4 defaults,nofail 0
+
+
+[root@ip-172-31-29-101 /]# mount -a
+mount: /etc/fstab: parse error: ignore entry at line 10.
+mount: /etc/fstab: parse error: ignore entry at line 11.
+mount: /etc/fstab: parse error: ignore entry at line 12.
+mount: /etc/fstab: parse error: ignore entry at line 13.
+mount: /etc/fstab: parse error: ignore entry at line 14.
+mount: wrong fs type, bad option, bad superblock on /dev/xvdi,
+       missing codepage or helper program, or other error
+
+       In some cases useful info is found in syslog - try
+       dmesg | tail or so.
+mount: wrong fs type, bad option, bad superblock on /dev/xvdi,
+       missing codepage or helper program, or other error
+
+       In some cases useful info is found in syslog - try
+       dmesg | tail or so.
+mount: wrong fs type, bad option, bad superblock on /dev/xvdi,
+       missing codepage or helper program, or other error
+
+       In some cases useful info is found in syslog - try
+       dmesg | tail or so.
+mount: wrong fs type, bad option, bad superblock on /dev/xvdi,
+       missing codepage or helper program, or other error
+
+       In some cases useful info is found in syslog - try
+       dmesg | tail or so.
+mount: wrong fs type, bad option, bad superblock on /dev/xvdi,
+       missing codepage or helper program, or other error
+
+       In some cases useful info is found in syslog - try
+       dmesg | tail or so.
+
+[root@ip-172-31-29-101 /]# lsblk
+NAME    MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
+xvda    202:0    0  10G  0 disk
++-xvda1 202:1    0   1M  0 part
++-xvda2 202:2    0  10G  0 part /
+xvdf    202:80   0   1G  0 disk /opt/apache
+xvdg    202:96   0   1G  0 disk /opt/logs
+xvdh    202:112  0   5G  0 disk /nfs-data
+xvdi    202:128  0   2G  0 disk /opt/jboss
+xvdj    202:144  0   2G  0 disk /opt/nagios
+[root@ip-172-31-29-101 /]# df -h
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/xvda2       10G  979M  9.1G  10% /
+devtmpfs        477M     0  477M   0% /dev
+tmpfs           496M     0  496M   0% /dev/shm
+tmpfs           496M   13M  483M   3% /run
+tmpfs           496M     0  496M   0% /sys/fs/cgroup
+tmpfs           100M     0  100M   0% /run/user/1000
+/dev/xvdf       976M  2.6M  907M   1% /opt/apache
+/dev/xvdg       976M  2.6M  907M   1% /opt/logs
+/dev/xvdh       4.8G   20M  4.6G   1% /nfs-data
+/dev/xvdi       2.0G  6.0M  1.8G   1% /opt/jboss
+/dev/xvdj       2.0G  6.0M  1.8G   1% /opt/nagios

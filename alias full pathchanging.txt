@@ -1,0 +1,63 @@
+
+
+[root@ip-172-31-8-204 ~]# cat /etc/sysconfig/network
+NETWORKING=yes
+NOZEROCONF=yes
+[root@ip-172-31-8-204 ~]# vi /etc/sysconfig/network
+[root@ip-172-31-8-204 ~]# init 6
+Connection to web1 closed by remote host.
+Connection to web1 closed.
+[ec2-user@ip-172-31-27-202 ~]$ ssh -i regawsmum.pem web1
+Last login: Wed Aug 23 03:49:57 2017
+[ec2-user@ip-172-31-8-204 ~]$ exit
+logout
+Connection to web1 closed.
+[ec2-user@ip-172-31-27-202 ~]$ cat .bashrc
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+        . /etc/bashrc
+fi
+
+# Uncomment the following line if you don't like systemctl's auto-paging feature:
+# export SYSTEMD_PAGER=
+
+# User specific aliases and functions
+[ec2-user@ip-172-31-27-202 ~]$ ls -ltr
+total 4
+-r--------. 1 ec2-user ec2-user 1696 Aug  3 17:33 regawsmum.pem
+[ec2-user@ip-172-31-27-202 ~]$ pwd
+/home/ec2-user
+[ec2-user@ip-172-31-27-202 ~]$ vi .bashrc
+[ec2-user@ip-172-31-27-202 ~]$ source .bashrc
+[ec2-user@ip-172-31-27-202 ~]$ web1
+Last login: Wed Aug 23 04:04:00 2017 from 172.31.27.202
+[ec2-user@ip-172-31-8-204 ~]$ exit
+logout
+Connection to web1 closed.
+[ec2-user@ip-172-31-27-202 ~]$ ls -ltra
+total 20
+-rw-r--r--. 1 ec2-user ec2-user  193 Mar  7 16:13 .bash_profile
+-rw-r--r--. 1 ec2-user ec2-user   18 Mar  7 16:13 .bash_logout
+-r--------. 1 ec2-user ec2-user 1696 Aug  3 17:33 regawsmum.pem
+drwxr-xr-x. 3 root     root       22 Aug 22 12:37 ..
+drwx------. 2 ec2-user ec2-user   48 Aug 22 14:46 .ssh
+-rw-r--r--. 1 ec2-user ec2-user  285 Aug 23 04:05 .bashrc
+drwx------. 3 ec2-user ec2-user  116 Aug 23 04:05 .
+-rw-------. 1 ec2-user ec2-user 1122 Aug 23 04:05 .bash_history
+[ec2-user@ip-172-31-27-202 ~]$
+
+
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+        . /etc/bashrc
+fi
+
+# Uncomment the following line if you don't like systemctl's auto-paging feature:
+# export SYSTEMD_PAGER=
+
+# User specific aliases and functions
+alias web1="ssh -i /home/ec2-user/regawsmum.pem web1"

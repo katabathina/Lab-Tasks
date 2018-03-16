@@ -1,0 +1,25 @@
+Task:-
+
+Hosting the website and customizing the error page.
+
+
+Solution:-
+
+
+First create a bucket with unique name. 
+
+After that goto properties-->static website hosting-->
+
+select Use this bucket to host a website (fill with index.html,
+
+error.html) and save.
+
+And create two files in notepad outside AWS, Naming like index.html , error.html
+
+Then upload to the bucket, both you make it make public.
+ 
+
+
+then come and click file, copy url and search in browser then it works.
+
+ 

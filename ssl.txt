@@ -1,0 +1,50 @@
+To generate key:-
+openssl genrsa -des3 -out ec2.key 2048
+
+to remove password
+
+openssl rsa -in ec2.key -out ec2.key.nopass
+(move key into pass and no pass into key)
+
+To generate csr :-
+openssl req  -new -key ec2.key -out ec2.csr
+
+To generate self-signed cert :-
+openssl x509 -req -days 365 -in ec2.csr -signkey ec2.key -out ec2.crt
+
+----------------------------------
+yum install mod_ssl*----------->/etc/httpd/conf.d/ssl.conf
+
+at the end of httpd.conf
+=======================
+
+<VirtualHost *:443>
+ServerName ec2-52-41-122-145.us-west-2.compute.amazonaws.com
+SSLEngine on
+SSLCertificateFile /etc/httpd/ssl/ec2.crt
+SSLCertificateKeyFile /etc/httpd/ssl/ec2.key
+</VirtualHost> 
+
+restart apache
+
+http:-->80
+https://---443
+===================================================================================
+
+browser(public)--->data(public key encrypt)--------------------------------->server(privatekey)---priave key decrypt
+
+server(private key)--->data(priave key)------->browser(public key--decrypt
+
+==================================================================================
+
+
+Checking for md5 :-
+=======================================
+openssl x509 -noout -modulus -in ec2.crt | openssl md5
+openssl rsa -noout -modulus -in ec2.key | openssl md5
+openssl req -noout -modulus -in ec2.csr | openssl md5
+====================================================
+Check a crtificate Signing Request (CSR) : openssl req -text -noout -verify -in ec2.csr
+Check a private key :openssl rsa -in privateKey.key -check
+Check a certificate : openssl x509 -in ec2.crt -text -noout
+=======================================================

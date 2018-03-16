@@ -1,0 +1,222 @@
+1. first install apache---yum install httpd -y
+2. start apache-----systemctl start httpd
+3. install java -----yum install java * -y
+4. download tomcat link----wget tomcat.zip
+5. unzip tomcat.zip
+6. go to tomcat.war file
+7. bin---- start tomcat---./startup.sh
+8. goto vi /etc/httpd/conf/httpd.conf
+9. at the end you add below:--
+
+<VirtualHost *:80>
+
+ProxyRequests Off
+ProxyPreserveHost On
+RedirectMatch ^/$ /jenkins
+ProxyPass /jenkins http://localhost:8080/jenkins
+ProxyPassReverse /jenkins http://localhost:8080/jenkins
+
+</VirtualHost>
+
+10. afterthat stop and start apache.
+
+11. goto browser give ipaddress :directly it will open jenkins page like this--"http://35.176.110.154/jenkins/"
+
+here content is we are  giving req to "apache webserver"- apache req to tomcat applications server--
+here without mentioning 8080:
+
+---->Incase if not working goto cd /var/log/httpd
+
+here you go tail -50f access.log
+
+here you will find below error-->
+
+----> AH01114: HTTP: failed to make connection to backend: localhost, referer: 35.176.120.180
+
+goto google and search above error you will find below solution:-
+
+/usr/sbin/setsebool -P httpd_can_network_connect 1
+
+you just past ...thats it.
+
+
+1  yum install httpd -y
+    2  yum install java * -y
+    3  systemctl start httpd
+    4  ps -ef | grep httpd
+    5  cd /opt
+    6  ls -lt
+    7  mkdir apps
+    8  ls -ltr
+    9  cd /tmp
+   10  ls -ltr
+   11  mkdir apps
+   12  ls -ltr
+   13  cd apps/
+   14  vi /etc/ssh/sshd_config
+   15  clear
+   16  su - ec2-user
+   17  passwd roo
+   18  passwd root
+   19  clear
+   20  su - ec2-user
+   21  clear
+   22  ls -ltr
+   23  cd /etc/httpd
+   24  ls -ltr
+   25  cd conf
+   26  vi conf.d
+   27  cd
+   28  service sshd restart
+   29   /bin/systemctl restart sshd.service
+   30  service sshd reload
+   31  apachectl -k sart
+   32  apachectl -k start
+   33  ps ef|grep java
+   34  ps -ef|grep -i tomcat
+   35  clear
+   36  gateway
+   37  route
+   38  clear
+   39  traeroute
+   40  tracert
+   41  traceroute
+   42  yum install traceroute* -y
+   43  traceroute
+   44  traceroute -r
+   45  traceroute -i
+   46  clear
+   47  cd /etc/httpd/conf
+   48  ls -ltr
+   49  vi httpd.conf
+   50  ps -ef | grep httpd
+   51  systemctl stop httpd
+   52  ps -ef | grep httpd
+   53  systemctl start httpd
+   54  vi httpd.conf
+   55  systemctl start httpd
+   56  apachectl -k start
+   57  getenforce
+   58  setenforce 0
+   59  systemctl start httpd
+   60  ps -ef | grep httpd
+   61  systemctl status httpd
+   62  vi httpd.conf
+   63  ps -ef | grep httpd
+   64  systemctl start httpd
+   65  ps -ef | grep httpd
+   66  vi httpd.conf
+   67  systemctl stop httpd
+   68  ps -ef | grep httpd
+   69  systemctl start httpd
+   70  ps -ef | grep httpd
+   71  vi httpd.conf
+   72  systemctl stop httpd
+   73  ps -ef | grep httpd
+   74  systemctl start httpd
+   75  ps -ef | grep httpd
+   76  ps -ef | grep httpd
+   77  cd /tmp
+   78  ls -ltr
+   79  cd apps/
+   80  ls -ltr
+   81  yum install wget -y
+   82  wget
+   83  wget http://redrockdigimark.com/apachemirror/tomcat/tomcat-9/v9.0.0.M26/bin/apache-tomcat-9.0.0.M26-windows-x64.zip
+   84  yum install unzip
+   85  unzip apache-tomcat-9.0.0.M26-windows-x64.zip
+   86  ls -ltr
+   87  cd apache-tomcat-9.0.0.M26
+   88  ls -ltr
+   89  cd /opt
+   90  ls
+   91  cd apps
+   92  cp /tmp/apps/apache-tomcat-9.0.0.M26 .
+   93  cp -r /tmp/apps/apache-tomcat-9.0.0.M26 .
+   94  ls -ltr
+   95  cd apache-tomcat-9.0.0.M26/
+   96  ls -ltr
+   97  cd bin
+   98  ls -ltr
+   99  rm -f *.bat
+  100  ls -ltr
+  101  chmod 700 *.sh
+  102  ls -ltr
+  103  ./startup.sh
+  104  ps -ef | grep tomcat
+  105  yum install telnet
+  106  telnet 35.176.110.154
+  107  telnet 35.176.110.154 8080
+  108  cd /tmp/apps/
+  109  ls
+  110  wget https://updates.jenkins-ci.org/download/war/2.77/jenkins.war
+  111  ls -ltr
+  112  cp jenkins.war /opt/apps
+  113  ps -ef | grep httpd
+  114  cd /opt/apps/
+  115  ls
+  116  mv jenkins.war /opt/apps/apache-tomcat-9.0.0.M26/webapps/
+  117  ls -ltr
+  118  cd apache-tomcat-9.0.0.M26/
+  119  cd webapps/
+  120  ls -ltr
+  121  ls -ltra
+  122  cd
+  123  ls -ltr
+  124  cd /opt
+  125  cd apps/apache-tomcat-9.0.0.M26/
+  126  ls -ltra
+  127  cd bin
+  128  ls -ltr
+  129  ls -ltra
+  130  cd /
+  131  ls -ltra
+  132  cd /opt
+  133  cd apps
+  134  ls -ltr
+  135  ls -ltra
+  136  cd apache-tomcat-9.0.0.M26/
+  137  ls -ltra
+  138  cd bin
+  139  ls -ltr
+  140  ls -ltra
+  141  cd ..
+  142  ls -ltr
+  143  cd webapps/
+  144  ls -ltra
+  145  cd jenkins
+  146  ls -ltr
+  147  pwd
+  148  cd /
+  149  ls -ltra
+  150  /root/.jenkins/secrets/initialAdminPassword
+  151  cd /.jenkins/secrets/initialAdminPassword
+  152  cd .jenkins/secrets/initialAdminPassword
+  153  cat /root/.jenkins/secrets/initialAdminPassword
+  154  ps -ef | grep httpd
+  155  enable start httpd
+  156  service enable httpd
+  157  vi /etc/httpd/conf/httpd.conf
+  158  systemctl enable httpd
+  159  ps -ef | grep httpd
+  160  systemctl start httpd
+  161  ps -ef | grep httpd
+  162  ps -ef | grep tomcat
+  163  cd /opt/apps/
+  164  cd apache-tomcat-9.0.0.M26/
+  165  ls -ltr
+  166  cd bin
+  167  ls -ltr
+  168  ./startup.sh
+  169  ps -ef | grep tomcat
+  170  ps -ef | grep httpd
+  171  cd /var/log/
+  172  ls -l
+  173  cd httpd/
+  174  ls -ltr
+  175  date
+  176  tail -50f error_log
+  177  /usr/sbin/setsebool -P httpd_can_network_connect 1
+
+
+

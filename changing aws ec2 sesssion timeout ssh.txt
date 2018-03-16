@@ -1,0 +1,30 @@
+changing aws ec2 sesssion timeout ssh:--
+
+
+======================================================
+
+Enable SSH idle session timeout
+
+Hi,
+in /etc/ssh/sshd_config insert
+
+ClientAliveInterval 600
+ClientAliveCountMax 3
+
+That will give you an timeout of 30 minutes (600 sec x 3)
+
+===============================================================
+
+goto cd /etc/ssh
+
+vi sshd_config
+
+ClientAliveInterval 600
+ClientAliveCountMax 3
+
+service sshd reload----(mandatorly)
+
+
+its applicable to sshd
+
+============================================

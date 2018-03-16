@@ -1,0 +1,92 @@
+
+
+1.Create a VPC
+2.Create IGW and attache to VPC.
+3.create a subnest based on AZ's
+  public subnets and private subnets.
+4.Create a routing table(private & public)
+ 
+All public subnets only one route.
+private subnests each one route
+
+publicsubnets each one make auto assign default=enable
+privatesubnets auto matically auto assign default=Disable
+
+ Associate (add) public subnets to public route.
+ Associate (add) private subnets to each route.
+
+
+goto public routetable and edit and add publicsubnets and save.
+
+goto private routable each and edit and add privatesubnets.
+
+
+
+goto routetable and selece public route and click route and edit and add anotherroute
+ 
+ like 0.0.0.0/0 and igw id and save.
+
+
+Create NAT Gateway.
+
+Create NAT Gateway (Public Zone-A)-EIP:nat-06484780d71e5cf10'.
+
+Create NAT Gateway (Public Zone-B)-EIP:nat-03fdca6a5653bfadc'.
+
+
+goto routetable and selece private route-a and click route and edit and add anotherroute
+ 
+ like 0.0.0.0/0 and NAT-a-ID and save.
+
+goto routetable and selece private route-b and click route and edit and add anotherroute
+ 
+ like 0.0.0.0/0 and NAT-b-ID and save.
+
+
+Afterthat create security groups:-
+
+1.Bastion-ssh -22-anywhers(Bastion-sg)
+
+2. elb-http-80-anywhere(0.0.0.0/0)_(elb-sg)
+
+
+3.webservers-22-ssh-(Bastion-sg)
+           http-80-(elb-sg)
+
+After that create 4 instances
+2 public and 2 privates
+like {2 basiton(public az-a and public az-b) and 2 webservers (public az-a and public az-b)}
+
+for basitons give one security group(Bastion-sg) and Webservers sg(Bastion-sg & elb-sg).
+
+
+
+Next goto Bastion:- check bastions to all webservers connecting or not?
+ 
+next install apache in all webservers next vi mode:(cd /var/www/html)next (vi index.html)
+
+next give what ever page you want in vi mode to all webservers>
+
+next check page local access in linux command:"curl localhostname" or "curl localIPaddress"
+
+
+
+goto LB(loadbalancer):-
+
+in loadbalacer choose ALB(Applciation load balancer)
+
+give existing (elb-sg) next give all avalability zones of public subnets.
+
+next create new target group there last column you give "index.html"(mandatorly)
+
+next add all webservers to Addregistrs.
+
+then ALB Is completeds
+
+go and check in browser ALB DNS ...then its work..
+
+
+
+
+
+

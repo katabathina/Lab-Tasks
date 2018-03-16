@@ -1,0 +1,198 @@
+Creating SSL for Apache..
+
+=================================
+
+l) first lanch ec2-instance 
+
+2) yum install httpd
+
+3 cd /etc/httpd
+
+mkdir ssl
+
+goto ssl-->openssl genrsa -des3 -out ec2.key 2048     (here ec2 is the key)
+
+next it will ask pass for ec2.key---sree2016
+
+verify password:sree2016
+
+4) to remove password
+
+openssl rsa -in ec2.key -out ec2.key.nopass
+Enter pass phrase for ec2.key:sree2016
+
+(((or)))
+
+openssl rsa -in ec2.key -out ec2.key
+
+
+writing RSA key
+
+ mv ec2.key ec2.key.nopass
+
+5)To generate csr :-
+openssl req  -new -key ec2.key -out ec2.csr
+
+Error opening Private Key ec2.key
+139702301693856:error:02001002:system library:fopen:No such file or directory:bss_file.c:402:fopen('ec2.key','r')
+139702301693856:error:20074002:BIO routines:FILE_CTRL:system lib:bss_file.c:404:
+unable to load Private Key
+
+
+
+ec2-52-41-122-145.us-west-2.compute.amazonaws.com
+
+
+
+
+histroy
+
+=====================================================================
+
+1  ls -ltr
+    2  yum install httpd
+    3  cd /etc
+    4  ls -ltr
+    5  cd httpd
+    6  ls -ltr
+    7  mkdir ssl
+    8  ls -ltr
+    9  cd ssl
+   10  ls -ltr
+   11  openssl genrsa -des3 -out ec2.key 2048
+
+   12  ll
+   13  openssl rsa -in ec2.key -out ec2.key
+   14  ls -ltr
+   15  systemctl start httpd
+   16  ps -ef | grep  httpd
+   17  openssl req  -new -key ec2.key -out ec2.csr
+   18  openssl x509 -req -days 365 -in ec2.csr -signkey ec2.key -out ec2.crt
+   19  ls -ltr
+   20  cd ..
+   21  cd modules/
+   22  ls -ltr
+   23  yum install mod_ssl*
+   24  cd /etc/httpd
+   25  cd conf
+   26  vi httpd.conf
+   27  systemctl start httpd
+   28  systemctl stop httpd
+   29  systemct start httpd
+   30  systemctl start httpd
+   31  ps -ef | grep httpd
+
+
+
+
+
+vi mode add below
+
+
+<VirtualHost *:443>
+ServerName ec2-34-235-88-67.compute-1.amazonaws.com
+SSLEngine on
+SSLCertificateFile /etc/httpd/ssl/ec2.crt
+SSLCertificateKeyFile /etc/httpd/ssl/ec2.key
+</VirtualHost>
+
+
+
+ goto browser:----
+
+https://ec2-52-41-122-145.us-west-2.compute.amazonaws.com/
+
+
+
+
+
+=======================================================================================
+
+
+l) first lanch ec2-instance 
+
+2) yum install httpd
+
+3) cd /etc/httpd
+
+mkdir ssl----------(Create a directory ssl)
+
+goto ssl-->openssl genrsa -des3 -out ec2.key 2048   ----->(here ec2 is the key)
+
+[root@ip-172-31-31-162 ssl]# openssl genrsa -des3 -out ec2.key 2048
+Generating RSA private key, 2048 bit long modulus
+......+++
+.................................+++
+e is 65537 (0x10001)
+Enter pass phrase for ec2.key:sreedhar
+Verifying - Enter pass phrase for ec2.key:sreedhar
+
+4)  [root@ip-172-31-31-162 ssl]# openssl rsa -in ec2.key -out ec2.key    -------> this command for password less ((to remove password))
+Enter pass phrase for ec2.key:sreedhar
+writing RSA key
+
+5) [root@ip-172-31-31-162 ssl]# systemctl strat httpd
+
+6)  [root@ip-172-31-31-162 ssl]# openssl req  -new -key ec2.key -out ec2.csr
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [XX]:IN
+State or Province Name (full name) []:Karnataka
+Locality Name (eg, city) [Default City]:Bangalore
+Organization Name (eg, company) [Default Company Ltd]:AWSCONSOLE
+Organizational Unit Name (eg, section) []:AWSUNIT
+Common Name (eg, your name or your server's hostname) []:ec2-34-235-88-67.compute-1.amazonaws.com
+Email Address []:sreedhar.katabathina@gmail.com
+
+Please enter the following 'extra' attributes
+to be sent with your certificate request
+A challenge password []:.
+An optional company name []:.
+
+7) [root@ip-172-31-31-162 ssl]# openssl x509 -req -days 365 -in ec2.csr -signkey ec2.key -out ec2.crt
+Signature ok
+subject=/C=IN/ST=Karnataka/L=Bangalore/O=AWSCONSOLE/OU=AWSUNIT/CN=ec2-34-235-88-67.compute-1.amazonaws.com/emailAddress=sreedhar.katabathina@gmail.com
+Getting Private key
+
+8) [root@ip-172-31-31-162 ssl]# cd ..      -----> one directory back
+
+9) [root@ip-172-31-31-162 httpd]# cd modules/    ---- goto modules directory
+
+10) [root@ip-172-31-31-162 modules]# yum install mod_ssl*
+
+11) [root@ip-172-31-31-162 modules]# cd /etc/httpd/conf
+[root@ip-172-31-31-162 conf]# vi httpd.conf
+
+vi mode add below
+
+
+<VirtualHost *:443>
+ServerName ec2-34-235-88-67.compute-1.amazonaws.com
+SSLEngine on
+SSLCertificateFile /etc/httpd/ssl/ec2.crt
+SSLCertificateKeyFile /etc/httpd/ssl/ec2.key
+</VirtualHost>
+
+:wq!
+
+
+12) [root@ip-172-31-31-162 conf]# systemctl stop httpd
+[root@ip-172-31-31-162 conf]# systemctl start httpd
+[root@ip-172-31-31-162 conf]# ps -ef | grep httpd
+
+
+13)  browser add :https -443 ---anywhere---
+
+
+14)  https://ec2-34-235-88-67.compute-1.amazonaws.com/ -------- this is the result
+
+=================================================================================================================
+
+
+
+

@@ -1,0 +1,164 @@
+
+1. Creating a tar file:-(Tar ball or Backup command)
+
+Ans:- 
+
+Creating tar file first you choose the file/directory.
+
+ex:-/opt/test
+
+create tar file :----> in pwd.
+
+ tar -cvf filename.tar target directory/file
+ tar -cvf hello.tar /opt/test
+
+Create a tar file in perticular path:
+
+Ex;-crare a tar file in /tmp
+
+tar -cvf /tmp/hello.tar /opt/test---> it create tar file at /tmp
+
+
+1.1 ...with out untar, list down the file content.
+
+Exp:hello.tar
+
+tar -tvf filename.tar
+tar -tvf hello.tar
+
+1.2 ....To extract or untaring tar file;
+
+Ex:-hello.tar
+
+tar -xvf filename.tar
+tar -xvf hello.tar
+-----------------------------------------
+
+
+2.    .tgz or tar.gz
+----------------------
+
+creating a .tgz file or .gz file from tar.
+
+ex:/usr/linux
+
+create a .tgz (or) tar.gz
+
+tar -cvzf filename.tgz target directory(hello.tar)
+tar -cvzf hello.tgz hello.tar
+
+or
+
+tar -cvzf filename.tar.gz target directory(hello.tar)
+tar -cvzf hello.tar.gz hello.tar
+
+
+2.1...without extract (.tgz or .tar.gz)
+
+ex:-hello.tar.gz or hello.tgz
+
+tar -tvzf filename.tar.gz
+tar -tvzf hello.tar.gz
+
+tar -tvzf filename.tgz
+tar -tvzf hello.tgz
+
+2.2...Extarcting (.tgz or .tar.gz)
+
+ex:-hello.tar.gz or hello.tgz
+
+tar -xvzf filename.tar.gz
+tar -xvzf hello.tar.gz
+
+tar -xvzf filename.tgz
+tar -xvzf hello.tgz
+
+-------------------------------------------------------------
+
+
+3. gzip:-
+
+gzip:--->Compress a file (file syste full / high space using file)
+
+Note: never "gzip" currently updating file and always for old files (olderthan 30 days file).
+       Mostly used for log files.
+
+
+To gzip a filename--> it changes original file name into .gz format file.
+to uncompress a  .gz file we use "gunzip"
+
+
+
+create a gzip file:- 
+
+ex:- new.tar
+
+
+syntax : gzip filename.tar
+         gzip filename
+
+
+gzip new.tar ---O/P:-new.tar.gz
+gzip new---->O\P:-new.gz
+
+ex:-hello
+
+gzip hello---->O/p:-hello.gz
+gzip roomates.tar--->O/p:roomates.tar.gz
+
+3..1....uncompress gzip:(gunzip)
+
+Ex:Venki
+
+gunzip venki.gz ---->O/p:venki
+gunzip venki.tar.gz------>O/p:venki.tar
+
+-------------------------------------------------------------------------------------------
+
+4. Creating a zip file:-
+
+to make a zip/compress:-
+
+ex:-sreedhar/mba
+
+syntax: zip -r filename.zip target directory
+        zip -r first.zip sreedar/mba
+
+4.1... To uncompress(unzip)
+
+syntax: unzip filename.zip
+        unzip first.zip
+
+4.2... With out extract seeing the file content
+
+ syntax: unzip -l filname.zip
+         unzip -l first.zip
+
+4.3.... unzip file and place a different location:-
+
+syntax: unzip filename.zip -d target place(where we want to keep)
+
+        unzip first.zip -d /usr
+
+--------------------------------------------------------------------------------------------
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

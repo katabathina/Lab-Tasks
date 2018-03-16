@@ -1,0 +1,110 @@
+
+
+Q :- Direclty accessing jenkins with out mentioning portno on browser...with only ip address will access jenkins.
+
+Ans :-
+
+1. first install apache---(httpd we call it in ubuntu---apache2)
+
+       apt-get update
+       apt-get install apache2
+
+apache installed..
+
+2... To start apache
+
+/etc/init.d  systemctl stop apache2.service
+             systemctl status apache2.service
+             systemctl start apache2.service
+             systemctl status apache2.service
+             systemctl stop apache2.service
+             systemctl status apache2.service	 	
+
+
+
+
+command--apt-get install apache2Invalid command 'ProxyRequests', perhaps misspelled or defi ubuntu
+
+Error:--
+
+Invalid command 'ProxyRequests', perhaps misspelled or defi ubuntu
+
+
+
+
+
+ ls -ltr
+  214  cd apache2/
+  215  ls -ltr
+  216  pwd
+  217  tail -50f access.log
+  218  ps -ef | grep apache2
+  219  systemctl start apache2.service
+  220  systemctl status apache2.service
+  221  apache2ctl -t
+  222  a2enmod proxy
+  223  apache2ctl -t
+
+
+apache2ctl -t
+  240  service apache2 stop
+  241  service apache2 start
+  242  cd /var/log/apache2/
+  243  ls -ltr
+  244  more error.log
+  245  a2enmod proxy_http
+  246  service apache2 stop
+  247  service apache2 start
+  248  ls -ltr
+  249  cd
+  250  cd /etc/apache2/
+  251  ls -ltr
+  252  cd sites-available/
+  253  ls -ltr
+  254  history
+
+
+ vi apache2.conf
+  198  systemctl stop apache2.service
+  199  ps -ef | grep apache2
+  200  systemctl start apache2.service
+  201  cd /etc
+  202  cd vat
+  203  cd var
+  204  ls
+  205  cd /etc
+  206  ls
+  207  cd apache2/
+  208  ls
+  209  cd /var
+  210  ls
+  211  cd log
+  212  ls
+  213  ls -ltr
+  214  cd apache2/
+  215  ls -ltr
+  216  pwd
+  217  tail -50f access.log
+  218  ps -ef | grep apache2
+  219  systemctl start apache2.service
+  220  systemctl status apache2.service
+
+/etc/apache2/sites-available
+
+vi 000-default.conf
+
+<VirtualHost *:80>
+
+ProxyRequests off
+ProxyPreserveHost On
+RedirectMatch ^/$ /jenkins
+ProxyPass /jenkins http://localhost:8080/jenkins
+ProxyPassReverse /jenkins http://localhost:8080/jenkins
+
+</VirtualHost>
+
+  221  apache2ctl -t
+  222  a2enmod proxy
+  223  apache2ctl -t
+  224  history
+

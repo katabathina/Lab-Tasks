@@ -1,0 +1,75 @@
+nfs-server
+
+Pub iP:-35.183.2.88
+pri ip:-172.31.24.92
+
+nfs-client:-
+
+pub ip:-35.182.221.161
+pri ip:- 172.31.16.195
+
+NFS-Server:-
+
+(Installation of NFS Server)
+
+#yum -y install nfs-utils libnfsidmap
+
+once the packages are installed, enable and start NFS Services
+
+# systemctl enable rpcbind
+
+# systemctl enable nfs-server
+
+# systemctl start rpcbind
+
+# systemctl start nfs-server
+
+# systemctl start rpc-statd
+
+# systemctl start nfs-idmapd
+
+
+next :-
+
+(Creating NFS Share Directory)
+
+mkdir /Shared
+
+chomod 777 /shared
+
+
+Next:-
+
+Modify Configuration File
+
+# Vi /etc/exports
+
+# /shared 172.31.16.195(rw,sync,no_root_squash)
+
+# exportfs -r
+
+# showmount -e localhost
+
+Export list for localhost:
+/shared 172.31.16.195
+
+
+===========================================
+
+Next:-
+
+(Configure NFS Client) another server
+
+We need to install NFS packages on NFS client-server in order
+mount remote filesystem, install NFS packages using below command.
+
+
+# yum -y install nfs-utils libnfsidmap
+
+# systemctl enable rpcbind
+
+# systemctl start rpcbind
+
+
+
+i am getting error

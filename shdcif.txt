@@ -1,0 +1,35 @@
+when server uptime,present memory
+
+server how many file systems?server os name?
+
+serverbit? which bit?apache process status?
+
+servers how many cpus assigned? to know apache which portnumber has to run?
+
+take input and display that?
+
+directory permissions check command ,ex:/  "ls -ld /" "ls -ld servers.sh"
+
+
+[ec2-user@ip-172-31-15-194 myscript]$ ./server.sh
+-bash: ./server.sh: Permission denied
+[ec2-user@ip-172-31-15-194 myscript]$
+[ec2-user@ip-172-31-15-194 myscript]$ ls -ltr
+total 4
+-rw-rw-r--. 1 ec2-user ec2-user 175 Aug 25 04:25 server.sh
+[ec2-user@ip-172-31-15-194 myscript]$ ls -ltr
+total 4
+-rw-rw-r--. 1 ec2-user ec2-user 175 Aug 25 04:25 server.sh
+[ec2-user@ip-172-31-15-194 myscript]$ chmod 700 ec2-user
+chmod: cannot access ‘ec2-user’: No such file or directory
+[ec2-user@ip-172-31-15-194 myscript]$ chmod 700 /home/ec2-user
+[ec2-user@ip-172-31-15-194 myscript]$ ls -ltr
+total 4
+-rw-rw-r--. 1 ec2-user ec2-user 175 Aug 25 04:25 server.sh
+[ec2-user@ip-172-31-15-194 myscript]$ chmod -R 700 /home/ec2-user
+[ec2-user@ip-172-31-15-194 myscript]$ ls -ltr
+total 4
+-rwx------. 1 ec2-user ec2-user 175 Aug 25 04:25 server.sh
+[ec2-user@ip-172-31-15-194 myscript]$ ls -ld server.sh
+-rwx------. 1 ec2-user ec2-user 175 Aug 25 04:25 server.sh
+[ec2-user@ip-172-31-15-194 myscript]$

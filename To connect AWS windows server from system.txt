@@ -1,0 +1,47 @@
+8080 port unable to connect in aws?
+
+When you stop the server , putty Error come like this :---
+
+""Server unexpectedly closed network connecton""
+
+
+https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/5/html/Cluster_Administration/s1-apache-inshttpd-CA.html
+
+linux search doubts
+
+
+----------------------------------------------------------------------------
+
+How to connect windows server from system:--
+
+
+
+First create windowserver
+
+after that select instance goto actions get windows passowrd
+
+give windowspem file nesxt descript you will get below like this
+
+You can connect remotely using this information:
+Public DNS	ec2-18-220-74-81.us-east-2.compute.amazonaws.com
+User name	Administrator
+Password	
+A3H&LbvtHP?Ev5oJ*ATQaex;.b9k5HD;
+
+next goto windows run type mstsc(to connect windows server)
+
+after that give public ip and connect.
+
+next it will ask like username and password.
+
+
+SSH-means-Secure Shell
+
+User name	Administrator
+Password	
+A3H&LbvtHP?Ev5oJ*ATQaex;.b9k5HD;
+
+after that connected to windows server>
+
+------------------------------------------------------------------------
+

@@ -1,0 +1,57 @@
+
+Query :--How can i Create automcatically expiring user accounts?
+
+=================================================================
+
+So when setting up the user's account you can specify a date +30 days in the future from now, and add that to your useradd command when setting up their accounts
+
+$ useradd -e 2013-07-30 someuser
+
+================================================================
+chage:-
+
+You can also change a existing accounts date using the chage command. To change an accounts expiration date you'd do the following.
+
+$ chage -E 2013-08-30 someuser
+
+===============================================================
+calculating the date +30 days from now
+
+
+
+To do this is actually pretty trivial using the date command. For example:
+
+$ date -d "30 days"
+Sun Jul 28 01:03:05 EDT 2013
+
+
+You can format using the +FORMAT options to the date command, which ends up giving you the following:
+
+$ date -d "30 days" +"%Y-%m-%d"
+2013-05-28
+
+================================================================
+
+Putting it all together
+
+So knowing the above pieces, here's one way to put it together. First when creating an account you'd run this command:
+
+$ useradd -e `date -d "30 days" +"%Y-%m-%d"` someuser
+
+Then when you want to adjust their expiration dates you'd periodically run this command:
+
+$ chage -E `date -d "30 days" +"%Y-%m-%d"` someuser
+
+
+================================================================
+
+Specifying time periods of less than 24h
+
+If you want a user to only be active for some minutes, you cannot use the options above since they require specifying a date.
+In that case, you could either set up a crontab to remove/lock the created user after the specified time (for example, 10 minutes), or you could do one of:
+
+adduser someuser && sleep 600 && usermod --lock someuser
+or
+
+$ adduser someuser
+$ echo usermod --lock someuser | at now + 10 minutes

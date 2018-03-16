@@ -1,0 +1,435 @@
+
+1. lanuch 2 ec2 instances
+
+2. first ec2 apache and second ec2 tomcat and run.
+
+3. Do integration to two servers (ProxyPass), go to Apache (vi /etc/httpd/conf/httpd.conf).
+
+ex:-<VirtualHost *:80>
+
+ProxyRequests Off
+ProxyPreserveHost On
+RedirectMatch ^/$ /petclinic
+ProxyPass /petclinic http://172.31.16.38:8080/petclinic
+ProxyPassReverse /petclinic http://172.31.16.38:8080/petclinic
+
+</VirtualHost>
+
+4. next download the petclin war file deploy to tomcat server webapps.
+
+link:-http://cliqr-appstore.s3.amazonaws.com/petclinic/petclinic.war
+
+5. install the mysql( yum install mysql-server*) in tomcat server. if not working try below first
+
+yum localinstall https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm
+
+next yum install mysql-server*
+
+6. start mysql (service mysqld start) and check mysql started or not
+
+netstat -anlp | grep ":3306"
+
+to check mysql version (Mysql --version)
+
+7. get the default root password for mysql (grep 'temporary password' /var/log/mysqld.log)
+
+its come like this
+
+[root@ip-172-31-31-18 tmp]# grep 'temporary password' /var/log/mysqld.log
+
+2017-12-04T07:26:50.965490Z 1 [Note] A temporary password is generated for root@localhost: Ts,xJV/Yj6hC
+
+8. reset the mysql password
+
+SET PASSWORD FOR 'root'@'localhost' = PASSWORD('MyNewPass');
+
+	.WKPdhuhE6M(
+
+ex:-
+
+SET PASSWORD FOR 'root'@'localhost' = PASSWORD('Login@123');
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+9. Create a petclinic db in mysql. ( CREATE DATABASE petclinic;)
+
+10. Download the war file from your s3 url and upload into tomcat webapps.(tomcat has to be running status and access petclinic once)
+
+11. stop tomcat and from webapps folder delete/move the petclinic.war( now you have petclinic expldoed directory in webapps folder)
+
+12 now go to webapps next select petclinc directory
+
+/opt/tomcat/webapps/petclinic/WEB-INF/classes/db/mysql
+
+vi initDB.sql (update the db username and password 2 line)
+
+for ex: GRANT ALL PRIVILEGES ON petclinic.* TO root@localhost IDENTIFIED BY 'Login@123';
+
+13. update data-access.prop with mysql entries.
+
+/opt/tomcat/webapps/petclinic/WEB-INF/classes/spring
+
+vi data-access.properties
+
+(remove all HQL and MS-SQL. ( keep only mysql lines and remove #(comments)))
+
+
+Ex:- Keep it as it like below :
+
+jpa.showSql=true
+
+#-------------------------------------------------------------------------------
+# MySQL Settings
+
+jdbc.driverClassName=com.mysql.jdbc.Driver
+jdbc.url=jdbc:mysql://localhost:3306/petclinic
+jdbc.username=root
+jdbc.password=Login@123
+
+# Properties that control the population of schema and data for a new data source
+jdbc.initLocation=classpath:db/mysql/initDB.sql
+jdbc.dataLocation=classpath:db/mysql/populateDB.sql
+
+# Property that determines which Hibernate dialect to use
+# (only applied with "applicationContext-hibernate.xml")
+hibernate.dialect=org.hibernate.dialect.MySQLDialect
+
+# Property that determines which database to use with an AbstractJpaVendorAdapter
+jpa.database=MYSQL
+
+#-------------------------------------------------------------------------------
+# SQL Server Settingstcp:Server_Name_Here.database.windows.net;Initial Catalog=petclinic;Persist Security Info=True;User ID=;Password=***********
+#jdbc.driverClassName=com.microsoft.sqlserver.jdbc.SQLServerDriver
+#jdbc.url=jdbc:sqlserver://%DB_TIER_IP%:1433;databaseName=petclinic
+#jdbc.username=sa
+#jdbc.password=password
+
+
+
+14 . next download the mysql connector jar and place it in tomcat/lib.
+
+mysql-connector-java-5.1.5-bin.jar
+
+tomcat stop and start check.. now it will work.
+
+
+=======================================
+
+
+once upadate jar file in /opt/tomcat/lib--->restart tomcat .
+
+remove hsql and mssql databases.
+
+if apache not connected to tomcat 
+
+systemctl stop httpd
+getenforce
+setenforce 0
+
+systemctl start httpd
+
+
+
+
+=====================================
+
+
+
+1  yum install java * -y
+    2  yum install wget -y
+    3  yum install unzip -y
+    4  cd /tmp
+    5  ls -ltr
+    6  wget http://www-eu.apache.org/dist/tomcat/tomcat-9/v9.0.2/bin/apache-tomcat-9.0.2-windows-x64.zip
+    7  ls -ltr
+    8  unzip apache-tomcat-9.0.2-windows-x64.zip
+    9  ls -ltr
+   10  mv apache-tomcat-9.0.2 tomcat
+   11  ls -ltr
+   12  cp -R tomcat/ /opt
+   13  ls -ltr
+   14  cd /opt
+   15  ls -ltr
+   16  cd tomcat/
+   17  ls -ltr
+   18  cd ..
+   19  ls -ltr
+   20  chmod -R 755 tomcat/
+   21  ls -ltr
+   22  cd tomcat/
+   23  ls -ltr
+   24  cd bin
+   25  ls -ltr
+   26  rm -rf *.bat
+   27  ls
+   28  ./startup.sh
+   29  cd /tmp
+   30  ls -ltr
+   31  wget http://cliqr-appstore.s3.amazonaws.com/petclinic/petclinic.war
+   32  ls -ltr
+   33  ps -ef | grep tocmat
+   34  cd /opt/tomcat/
+   35  ls
+   36  cd bin
+   37  ./startup.sh
+   38  ps -ef | grep tomcat
+   39  cd /tmp
+   40  ls -ltr
+   41  cp petclinic.war /opt/tomcat/webapps/
+   42  ls -ltr
+   43  cd /opt/tomcat/
+   44  cd webapps/
+   45  ls -ltr
+   46  cd /
+   47  yum install mysql-server*
+   48  ps -ef | grep tomcat
+   49  which tomcat
+   50  find / -name server.xml
+   51  cd /opt/tomcat/
+   52  ls -ltr
+   53  cd bin
+   54  ls -ltr
+   55  cd ..
+   56  cd webapps/
+   57  ls -ltr
+   58  cd ..
+   59  ls -ltr
+   60  cd bin/
+   61  ./startup.sh
+   62  ps -ef | grep tomcat
+   63  ping www.google.com
+   64  cd /
+   65  yum localinstall https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm
+   66  next yum install mysql-server*
+   67  yum install mysql-server*
+   68  service mysqld start
+   69  netstat -anlp | grep ":3306"
+   70  mysql --version
+   71  grep 'temporary password' /var/log/mysqld.log
+   72  msql -h locahost -u root -p
+   73  mysql -h localhost -u root -p
+   74  SET PASSWORD FOR 'root'@'localhost' = PASSWORD('Login@123');
+   75  SET PASSWORD FOR root@'localhost' = PASSWORD('Login@123');
+   76  SET  PASSWORD FOR root@localhost' = PASSWORD('Login@123);
+   77  SET  PASSWORD FOR root@localhost' = PASSWORD ('Login@123);
+   78  SET  PASSWORD FOR 'root@localhost' = PASSWORD ('Login@123);
+   79  SET  PASSWORD FOR 'root@localhost' = PASSWORD ('Login@123');
+   80  mysql -h localhost -u root -p
+   81  ps -ef | grep tomcat
+   82  cd /tmp
+   83  ls -ltr
+   84  cd /opt/tomcat/bin
+   85  ls -ltr
+   86  ./shutdown.sh
+   87  ps -ef| grep tomcat
+   88  cd ..
+   89  ls -ltr
+   90  cd webapps/
+   91  ls -ltr
+   92  mv petclinic.war /tmp
+   93  ls -ltr
+   94  cd petclinic/
+   95  ls -ltr
+   96  cd WEB-INF/
+   97  ls
+   98  cd classes/
+   99  ls -ltr
+  100  cd db
+  101  ls -ltr
+  102  cd mysql/
+  103  ls -ltr
+  104  vi initDB.sql
+  105  find / -name data-access.prop
+  106  grep -iL data-access.prop
+  107  grep -iR data-access.prop
+  108  grep -iR data-access.prop *
+  109  grep -iL data-access.prop *
+  110  find / -name data-access.prop *
+  111  find / -name data-access.prop*
+  112  cd ..
+  113  ls -ltr
+  114  cd spring/
+  115  ls -ltr
+  116  vi data-access.properties
+  117  cd /home/ec2-user/
+  118  ls -ltr
+  119  cp mysql-connector-java-5.1.45-bin.jar /opt/tomcat/lib
+  120  cd /opt/tomcat/lib
+  121  ls -ltr
+  122  ps -ef | grep tomcat
+  123  cd ..
+  124  cd bin
+  125  ./startup.sh
+  126  ps -ef | grep tomcat
+  127  cd ..
+  128  ls -ltr
+  129  cd logs/
+  130  ls -ltr
+  131  tail -100f catalina.out
+  132  ls -ltr
+  133  >catalina.out
+  134  ls -ltr
+  135  datae
+  136  date
+  137  tail -100f catalina.
+  138  tail -100f catalina.out
+  139  tail -f catalina.out
+  140  tail -100f catalina.2017-12-11.log
+  141  grep -iR "SEVERE"
+  142  ls -ltr
+  143  date
+  144  tail -100f localhost.2017-12-11.log
+  145  ls -ltr
+  146  grep -iR catalina.2017-12-11.log
+  147  grep -iR "SEVERE" catalina.2017-12-11.log
+  148  pwd
+  149  grep -IR "Login"*
+  150  ls -ltr
+  151  tail -100f localhost_access_log.2017-12-10.txt
+  152  tail -100f localhost_access_log.2017-12-11.txt
+  153  ls -ltr
+  154  tail -100f catalina.2017-12-11.log
+  155  ls -ltr
+  156  tail -100f localhost.2017-12-11.log
+  157  ls -ltr
+  158  grep -iR "SEVERE" localhost.2017-12-11.log
+  159  grep -iR "SEVERE" catalina.2017-12-11.log
+  160  date
+  161  cd/
+  162  cd /
+  163  mysql:mysql-connector-java:5.1.36
+  164  mysql-connector-java:5.1.36
+  165  runtime 'mysql:mysql-connector-java:5.1.36'
+  166  cd /opt/tomcat/
+  167  ls -ltr
+  168  cd conf/
+  169  ls -ltr
+  170  cat context.xml
+  171  vi context.xml
+  172  ls -ltr
+  173  cd ..
+  174  ls -ltr
+  175  cd logs/
+  176  ls -tr
+  177  ls -ltr
+  178  tail -100f catalina.out
+  179  grep -iR "SEVERE" localhost.2017-12-11.log
+  180  ls -ltr
+  181  tail -100f catalina.out
+  182  tail -500f localhost.2017-12-11.log
+  183  grep -iR "SEVERE" localhost.2017-12-11.log
+  184  date
+  185  ls 0ltr
+  186  ls -ltr
+  187  tail -100f catalina.out
+  188  tail -500f catalina.out
+  189  tail 100f localhost.2017-12-11.log
+  190  tail -100f localhost.2017-12-11.log
+  191  ls -ltr
+  192  tai l -500f localhost.2017-12-11.log
+  193  tail -500f localhost.2017-12-11.log
+  194  cd /opt/tomcat/
+  195  ls -ltr
+  196  cd lib/
+  197  ls -ltr
+  198  chmod 755 mysql-connector-java-5.1.45-bin.jar
+  199  cd ..
+  200  ls
+  201  ls -ltr
+  202  cd bin
+  203  ls -ltr
+  204  ./shutdown.sh
+  205  ps -ef | grep tomcat
+  206  ./startup.sh
+  207  ps -ef | grep tomcat
+  208  cd ..
+  209  ls -ltr
+  210  cd logs/
+  211  ls -ltr
+  212  tail -100f catalina.out
+  213  cd .
+  214  cd ..
+  215  ls -ltr
+  216  cd webapps/
+  217  ls -ltr
+  218  cd petclinic/
+  219  ls -ltr
+  220  cd WEB-INF/
+  221  ls -ltr
+  222  cd classes/
+  223  ls -ltr
+  224  cd db/
+  225  ls -ltr
+  226  cd my
+  227  cd mysql/
+  228  ls -ltr
+  229  cat initDB.sql
+  230  cd ..
+  231  ls -ltr
+  232  rm -rf hsqldb/
+  233  ls -ltr
+  234  rm -rf mssqldb/
+  235  ls -ltr
+  236  cd mysql/
+  237  ls -ltr
+  238  cat petclinic_db_setup_mysql.txt
+  239  ls -ltr
+  240  vi initDB.sql
+  241  cd ..
+  242  ls -ltr
+  243  cd ..
+  244  ls -ltr
+  245  cd spring/
+  246  ls -ltr
+  247  vi data-access.properties
+  248  cd ..
+  249  ls -ltr
+  250  cd /opt/tomcat/
+  251  ls -ltr
+  252  cd bin
+  253  ./shutdown.sh
+  254  ps -ef | grep tomcat
+  255  ./startup.sh
+  256  ps -ef | grep tomcat
+  257  ls -ltr
+  258  cd ..
+  259  ls -ltr
+  260  cd logs/
+  261  ls -ltr
+  262  cd catalina.out
+  263  tail -f catalina.out
+  264  ls -ltr
+  265  grep -iR "SEVERE" catalina.out
+  266  date
+  267  mysql -h localhost -u root -p
+  268  ls -ltr
+  269  tail -f catalina.out
+  270  tail -f localhost_access_log.2017-12-11.txt
+  271  history
+
+
+1  yum install httpd -y
+    2  systmctl start httpd
+    3  systemctl start httpd
+    4  ps -ef | grep httpd
+    5  systemctl start httpd
+    6  ps -ef | grep httpd
+    7  curl localhost
+    8  ping www.google.com
+    9  cd /etc/httpd/conf/httpd.conf
+   10  vi /etc/httpd/conf/httpd.conf
+   11  systemctl stop httpd
+   12  systemctl start httpd
+   13  ps -ef | grpe httpd
+   14  ps -ef | grep http
+   15  ps -ef | grep httpd
+   16  systemctl stop httpd
+   17  systemctl start httpd
+   18  ps -ef | grep httpd
+   19  cat /etc/httpd/conf/httpd.conf
+   20  systemctl stop httpd
+   21  getenforce
+   22  setenforce 0
+   23  systemctl start httpd
+   24  ps -ef | grep httpd
+   25  history
+
